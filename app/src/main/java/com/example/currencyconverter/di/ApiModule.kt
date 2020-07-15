@@ -10,5 +10,5 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideMoshi() : Moshi = Moshi.Builder().build()
+    fun provideMoshi(): Moshi = Moshi.Builder().build()
 }
