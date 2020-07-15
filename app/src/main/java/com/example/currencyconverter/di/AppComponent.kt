@@ -10,7 +10,8 @@ import dagger.android.support.AndroidSupportInjectionModule
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
-        ActivityBuilderModule::class
+        ActivityBuilderModule::class,
+        ApiModule::class
     ]
 )
 interface AppComponent : AndroidInjector<CurrencyConverterApplication> {
