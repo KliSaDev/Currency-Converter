@@ -14,38 +14,42 @@ import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
-class ApiModule {
+abstract class ApiModule {
 
-    @Provides
-    @Singleton
-    fun provideMoshi(): Moshi = Moshi.Builder().build()
+    companion object {
 
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+        @Provides
+        @Singleton
+        fun provideMoshi(): Moshi = Moshi.Builder().build()
 
-        val okHttpClient = OkHttpClient.Builder()
+        @Provides
+        @Singleton
+        fun provideOkHttpClient(): OkHttpClient {
 
-        if (BuildConfig.DEBUG) {
-            okHttpClient.addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
-                Timber.tag("OkHttp").i(it)
-            }).apply { level = HttpLoggingInterceptor.Level.BODY })
+            val okHttpClient = OkHttpClient.Builder()
+
+            if (BuildConfig.DEBUG) {
+                okHttpClient.addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
+                    Timber.tag("OkHttp").i(it)
+                }).apply { level = HttpLoggingInterceptor.Level.BODY })
+            }
+
+            return okHttpClient.build()
         }
 
-        return okHttpClient.build()
+        @Provides
+        @Singleton
+        fun provideRetrofit(moshi: Moshi, okHttpClient: OkHttpClient): Retrofit =
+            Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_API_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .client(okHttpClient)
+                .build()
+
+        @Provides
+        @Singleton
+        fun provideApiService(retrofit: Retrofit): ApiService =
+            retrofit.create(ApiService::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(moshi: Moshi, okHttpClient: OkHttpClient): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_API_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .client(okHttpClient)
-            .build()
-
-    @Provides
-    @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 }
