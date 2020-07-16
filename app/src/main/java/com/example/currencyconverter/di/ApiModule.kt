@@ -1,6 +1,7 @@
 package com.example.currencyconverter.di
 
 import com.example.currencyconverter.BuildConfig
+import com.example.currencyconverter.network.ApiService
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -43,4 +44,8 @@ class ApiModule {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(okHttpClient)
             .build()
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 }
