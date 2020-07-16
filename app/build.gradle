@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+
+    def STRING = 'String'
+
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -30,6 +33,22 @@ android {
         }
     }
 
+    flavorDimensions 'version'
+    productFlavors {
+        production {
+            dimension 'version'
+            applicationIdSuffix '.production'
+            versionNameSuffix '-production'
+            buildConfigField STRING, "BASE_API_URL", "\"http://api.hnb.hr/tecajn/v1/\""
+        }
+        staging {
+            dimension 'version'
+            applicationIdSuffix '.staging'
+            versionNameSuffix '-staging'
+            buildConfigField STRING, "BASE_API_URL", "\"http://api.hnb.hr/tecajn/v1/\""
+        }
+    }
+
     // Fixes the compile issue: https://stackoverflow.com/a/50198499
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -49,6 +68,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
