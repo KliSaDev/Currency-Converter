@@ -3,11 +3,12 @@ package com.example.currencyconverter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.currencyconverter.util.LiveEvent
 
 open class BaseViewModel<State : Any, Event : Any> : ViewModel() {
 
     private val stateLiveData: MutableLiveData<State> = MutableLiveData()
-    private val eventLiveData: MutableLiveData<Event> = MutableLiveData()
+    private val eventLiveData: LiveEvent<Event> = LiveEvent()
 
     fun viewStateData(): LiveData<State> = stateLiveData
     fun viewEventData(): LiveData<Event> = eventLiveData
