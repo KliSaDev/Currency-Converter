@@ -1,15 +1,12 @@
 package com.example.currencyconverter.ui
 
 import com.example.currencyconverter.BaseViewModel
-import com.squareup.moshi.Moshi
-import javax.inject.Inject
+import timber.log.Timber
 
-class MainViewModel @Inject constructor(
-    private val moshi: Moshi
-) : BaseViewModel<MainState, MainEvent>() {
+class MainViewModel : BaseViewModel<MainState, MainEvent>() {
 
     fun init() {
-        val testdagger = moshi.newBuilder().build()
+        Timber.d("${MainViewModel::class.simpleName} initialized")
     }
 }
 
