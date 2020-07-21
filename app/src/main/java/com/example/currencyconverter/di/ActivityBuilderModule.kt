@@ -1,6 +1,6 @@
 package com.example.currencyconverter.di
 
-import com.example.currencyconverter.ui.MainActivity
+import com.example.currencyconverter.ui.main.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

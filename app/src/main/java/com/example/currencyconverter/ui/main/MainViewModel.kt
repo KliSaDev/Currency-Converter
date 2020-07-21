@@ -1,6 +1,8 @@
-package com.example.currencyconverter.ui
+package com.example.currencyconverter.ui.main
 
 import com.example.currencyconverter.BaseViewModel
+import dagger.Binds
+import dagger.Module
 import timber.log.Timber
 
 class MainViewModel : BaseViewModel<MainState, MainEvent>() {
@@ -10,5 +12,9 @@ class MainViewModel : BaseViewModel<MainState, MainEvent>() {
     }
 }
 
-sealed class MainState
-sealed class MainEvent
+@Module
+abstract class MainViewModelModule {
+
+    @Binds
+    abstract fun bindMainViewModel(viewModel: MainViewModel) : MainViewModel
+}
