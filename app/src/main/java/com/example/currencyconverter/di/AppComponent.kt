@@ -13,7 +13,8 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         ActivityBuilderModule::class,
-        ApiModule::class
+        ApiModule::class,
+        ViewModelProviderFactoryModule::class
     ]
 )
 interface AppComponent : AndroidInjector<CurrencyConverterApplication> {
