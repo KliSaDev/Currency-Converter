@@ -67,6 +67,15 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
 
+    // Material
+    implementation "com.google.android.material:material:$rootProject.materialVersion"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-ui:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+
     // Dagger
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_currency_converter"
+        android:icon="@drawable/ic_currency_converter"
+        android:title="@string/bottom_nav_title_converter" />
+
+    <item
+        android:id="@+id/navigation_currencies_list"
+        android:icon="@drawable/ic_currency_list"
+        android:title="@string/bottom_nav_title_currency_list" />
+
+    <item
+        android:id="@+id/navigation_weekly_rates"
+        android:icon="@drawable/ic_weekly_rates"
+        android:title="@string/bottom_nav_title_weekly_rates" />
+
+</menu>
