@@ -5,6 +5,7 @@ import com.example.currencyconverter.ui.main.convert.ConvertCurrencyViewModelMod
 import com.example.currencyconverter.ui.main.currencies.CurrencyListFragment
 import com.example.currencyconverter.ui.main.currencies.CurrencyListViewModelModule
 import com.example.currencyconverter.ui.main.weeklyrates.WeeklyRatesFragment
+import com.example.currencyconverter.ui.main.weeklyrates.WeeklyRatesViewModelModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -17,6 +18,6 @@ abstract class FragmentBuilderModule {
     @ContributesAndroidInjector(modules = [(CurrencyListViewModelModule::class)])
     abstract fun contributeCurrencyListFragment(): CurrencyListFragment
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [(WeeklyRatesViewModelModule::class)])
     abstract fun contributeWeeklyRatesFragment(): WeeklyRatesFragment
 }
