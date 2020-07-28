@@ -8,14 +8,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.currencyconverter.BaseActivity
 import com.example.currencyconverter.R
-import com.example.currencyconverter.di.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
-
-    @Inject
-    lateinit var factory: ViewModelProviderFactory
 
     private val viewModel by viewModels<MainViewModel> { factory }
 
@@ -30,7 +25,11 @@ class MainActivity : BaseActivity() {
     private fun setupBottomNavigation() {
         val navController = findNavController(R.id.navHostFragment)
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_currency_converter, R.id.navigation_currencies_list, R.id.navigation_weekly_rates)
+            setOf(
+                R.id.navigation_currency_converter,
+                R.id.navigation_currencies_list,
+                R.id.navigation_weekly_rates
+            )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)

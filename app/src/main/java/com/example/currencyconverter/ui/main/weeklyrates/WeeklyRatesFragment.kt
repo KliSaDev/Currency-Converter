@@ -8,14 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
-import com.example.currencyconverter.di.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_weekly_rates.*
-import javax.inject.Inject
 
 class WeeklyRatesFragment : BaseFragment() {
-
-    @Inject
-    lateinit var factory: ViewModelProviderFactory
 
     private val viewModel by viewModels<WeeklyRatesViewModel> { factory }
 
