@@ -11,7 +11,10 @@
         android:id="@+id/currencyName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
+        android:layout_marginEnd="@dimen/spacing_2x"
+        android:background="@drawable/bg_rectangle"
+        android:gravity="center"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/buyingRate"
@@ -36,7 +39,7 @@
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@id/currencyName"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="6.476544456666" />
+        tools:text="6.4765444566" />
 
     <TextView
         android:id="@+id/middleRate"
