@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
+import com.example.currencyconverter.data.Currency
 import kotlinx.android.synthetic.main.fragment_currency_list.*
 
 class CurrencyListFragment : BaseFragment() {
@@ -21,9 +22,19 @@ class CurrencyListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.viewStateData().observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is CurrencyListState -> showCurrencies(state.currencies)
+            }
+        })
+
         viewModel.init()
         viewModel.text.observe(viewLifecycleOwner, Observer {
             text_dashboard.text = it
         })
+    }
+
+    private fun showCurrencies(currencies: List<Currency>) {
+        // Show currencies.
     }
 }
