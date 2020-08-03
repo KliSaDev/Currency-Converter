@@ -5,18 +5,18 @@ import com.squareup.moshi.Json
 data class Currency(
 
     @Json(name = "Datum primjene")
-    private val date: String,
+    val date: String,
 
     @Json(name = "Valuta")
-    private val currency: String,
+    val currency: String,
 
     @Json(name = "Kupovni za devize")
-    private val buyingRate: String,
+    val buyingRate: String,
 
     @Json(name = "Srednji za devize")
-    private val middleRate: String,
+    val middleRate: String,
 
     @Json(name = "Prodajni za devize")
-    private val sellingRate: String
+    val sellingRate: String
 
 )
