@@ -3,6 +3,7 @@ package com.example.currencyconverter.di
 import com.example.currencyconverter.BuildConfig
 import com.example.currencyconverter.network.ApiService
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -20,7 +21,10 @@ abstract class ApiModule {
 
         @Provides
         @Singleton
-        fun provideMoshi(): Moshi = Moshi.Builder().build()
+        fun provideMoshi(): Moshi =
+            Moshi.Builder()
+            .add(KotlinJsonAdapterFactory()) // For Kotlin data class serialization.
+            .build()
 
         @Provides
         @Singleton

@@ -3,14 +3,20 @@ package com.example.currencyconverter.ui.main.currencies
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.currencyconverter.data.Currency
 import com.example.currencyconverter.di.annotations.ViewModelKey
+import com.example.currencyconverter.network.interactors.GetAllCurrenciesInteractor
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import io.reactivex.SingleObserver
+import io.reactivex.disposables.Disposable
 import timber.log.Timber
 import javax.inject.Inject
 
-class CurrencyListViewModel @Inject constructor() : ViewModel() {
+class CurrencyListViewModel @Inject constructor(
+    private val getAllCurrenciesInteractor: GetAllCurrenciesInteractor
+) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
@@ -19,6 +25,19 @@ class CurrencyListViewModel @Inject constructor() : ViewModel() {
 
     fun init() {
         Timber.d("${CurrencyListViewModel::class.simpleName} initialized")
+
+        getAllCurrenciesInteractor.execute().subscribe(object : SingleObserver<List<Currency>> {
+            override fun onSuccess(t: List<Currency>) {
+                Timber.d("${t.size} items in list")
+            }
+
+            override fun onSubscribe(d: Disposable) {
+            }
+
+            override fun onError(e: Throwable) {
+            }
+
+        })
     }
 }
 

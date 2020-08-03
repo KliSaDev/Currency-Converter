@@ -2,6 +2,7 @@ package com.example.currencyconverter.di
 
 import android.content.Context
 import com.example.currencyconverter.CurrencyConverterApplication
+import com.example.currencyconverter.di.network.InteractorsModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -15,6 +16,7 @@ import javax.inject.Singleton
         ActivityBuilderModule::class,
         FragmentBuilderModule::class,
         ApiModule::class,
+        InteractorsModule::class,
         ViewModelProviderFactoryModule::class
     ]
 )
