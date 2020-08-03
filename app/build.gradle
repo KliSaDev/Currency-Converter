@@ -66,6 +66,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
+    implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
 
     // Material
     implementation "com.google.android.material:material:$rootProject.materialVersion"
@@ -82,11 +84,15 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
 
-    implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
+    // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
-    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
+
+    //Rx
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
 
     //Moshi
     implementation "com.squareup.moshi:moshi:$rootProject.moshiVersion"
