@@ -3,4 +3,10 @@
     <string name="bottom_nav_title_converter">Converter</string>
     <string name="bottom_nav_title_currency_list">Currency list</string>
     <string name="bottom_nav_title_weekly_rates">Weekly rates</string>
+
+
+    <string name="header_currencies_list_currency_name">Currency</string>
+    <string name="header_currencies_list_buying_rate">Buying rate</string>
+    <string name="header_currencies_list_middle_rate">Middle rate</string>
+    <string name="header_currencies_list_selling_rate">Selling rate</string>
 </resources>
