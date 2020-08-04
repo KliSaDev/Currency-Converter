@@ -12,8 +12,12 @@ import com.example.currencyconverter.R
 import com.example.currencyconverter.data.Currency
 import com.example.currencyconverter.ui.adapters.CurrencyListAdapter
 import kotlinx.android.synthetic.main.fragment_currency_list.*
+import javax.inject.Inject
 
 class CurrencyListFragment : BaseFragment() {
+
+    @Inject
+    lateinit var currencyAdapter: CurrencyListAdapter
 
     private val viewModel by viewModels<CurrencyListViewModel> { factory }
 
@@ -31,15 +35,11 @@ class CurrencyListFragment : BaseFragment() {
         })
 
         viewModel.init()
-        viewModel.text.observe(viewLifecycleOwner, Observer {
-
-        })
     }
 
     private fun showCurrencies(currencies: List<Currency>) {
-        val currenciesAdapter = CurrencyListAdapter()
-        currenciesAdapter.items = currencies
+        currencyAdapter.items = currencies
         currenciesListRecyclerView.layoutManager = LinearLayoutManager(context)
-        currenciesListRecyclerView.adapter = currenciesAdapter
+        currenciesListRecyclerView.adapter = currencyAdapter
     }
 }
