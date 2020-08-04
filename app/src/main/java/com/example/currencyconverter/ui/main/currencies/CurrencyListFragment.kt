@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.ui.adapters.CurrencyListAdapter
 import kotlinx.android.synthetic.main.fragment_currency_list.*
 
 class CurrencyListFragment : BaseFragment() {
@@ -30,11 +32,14 @@ class CurrencyListFragment : BaseFragment() {
 
         viewModel.init()
         viewModel.text.observe(viewLifecycleOwner, Observer {
-            text_dashboard.text = it
+
         })
     }
 
     private fun showCurrencies(currencies: List<Currency>) {
-        // Show currencies.
+        val currenciesAdapter = CurrencyListAdapter()
+        currenciesAdapter.items = currencies
+        currenciesListRecyclerView.layoutManager = LinearLayoutManager(context)
+        currenciesListRecyclerView.adapter = currenciesAdapter
     }
 }
