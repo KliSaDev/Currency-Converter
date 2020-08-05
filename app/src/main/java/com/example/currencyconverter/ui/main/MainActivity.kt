@@ -32,6 +32,12 @@ class MainActivity : BaseActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        bottomNavigationView.setupWithNavController(navController)
+        bottomNavigationView.apply {
+            setupWithNavController(navController)
+            setOnNavigationItemReselectedListener {
+                // Do nothing. We don't want to recreate Fragment if user clicks on already
+                // selected menu item.
+            }
+        }
     }
 }
