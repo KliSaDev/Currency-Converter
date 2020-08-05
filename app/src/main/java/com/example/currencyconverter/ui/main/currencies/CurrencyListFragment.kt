@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
@@ -47,6 +48,7 @@ class CurrencyListFragment : BaseFragment() {
         currencyAdapter.items = currencies
         currenciesListRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = currencyAdapter
         }
     }
