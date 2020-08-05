@@ -19,6 +19,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_compare_arrows"
+        app:layout_constraintBottom_toBottomOf="@id/selectedFromCurrency"
+        app:layout_constraintEnd_toStartOf="@id/selectedToCurrency"
+        app:layout_constraintStart_toEndOf="@id/selectedFromCurrency"
+        app:layout_constraintTop_toTopOf="@id/selectedFromCurrency" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
