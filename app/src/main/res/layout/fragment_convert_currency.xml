@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/spacing_2x"
+    android:layout_marginEnd="@dimen/spacing_2x"
     tools:context="com.example.currencyconverter.ui.main.convert.ConvertCurrencyFragment">
 
     <TextView
@@ -11,9 +13,8 @@
         style="@style/Currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_2x"
         android:text="EUR"
-        app:layout_constraintBottom_toTopOf="@id/outlinedTextField"
+        app:layout_constraintBottom_toTopOf="@id/fromCurrencyInputContainer"
         app:layout_constraintEnd_toStartOf="@id/selectedToCurrency"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,14 +30,17 @@
         app:layout_constraintTop_toTopOf="@id/selectedFromCurrency" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/outlinedTextField"
+        android:id="@+id/fromCurrencyInputContainer"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_1x"
         android:hint="@string/insert_convert_value"
-        app:boxStrokeColor="@color/colorPrimary"
+        app:boxStrokeColor="@color/outline_box_stroke_color"
+        app:boxStrokeWidth="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/toCurrencyInputContainer"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -52,13 +56,34 @@
         style="@style/Currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_2x"
         android:gravity="center"
         android:text="HRK"
-        app:layout_constraintBottom_toTopOf="@id/outlinedTextField"
+        app:layout_constraintBottom_toTopOf="@id/toCurrencyInputContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@id/selectedFromCurrency"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/toCurrencyInputContainer"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_1x"
+        app:boxStrokeColor="@color/outline_box_stroke_color"
+        app:boxStrokeWidth="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@id/fromCurrencyInputContainer"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/toCurrencyInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
