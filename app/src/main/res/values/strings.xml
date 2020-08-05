@@ -8,4 +8,7 @@
     <string name="header_currencies_list_buying_rate">Buying rate</string>
     <string name="header_currencies_list_middle_rate">Middle rate</string>
     <string name="header_currencies_list_selling_rate">Selling rate</string>
+
+
+    <string name="insert_convert_value">Insert convert value</string>
 </resources>

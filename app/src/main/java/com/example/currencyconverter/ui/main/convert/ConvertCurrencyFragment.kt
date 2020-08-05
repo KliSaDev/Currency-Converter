@@ -24,7 +24,6 @@ class ConvertCurrencyFragment : BaseFragment() {
         viewModel.init()
 
         viewModel.text.observe(viewLifecycleOwner, Observer {
-            text_home.text = it
         })
     }
 }

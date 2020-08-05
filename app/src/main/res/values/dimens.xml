@@ -4,5 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
 
+    <dimen name="spacing_1x">8dp</dimen>
     <dimen name="spacing_2x">16dp</dimen>
+    <dimen name="spacing_2.5x">20dp</dimen>
 </resources>
