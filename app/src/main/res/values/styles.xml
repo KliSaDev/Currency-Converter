@@ -18,4 +18,13 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="PrimaryButton">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_button</item>
+        <item name="android:padding">@dimen/spacing_2x</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

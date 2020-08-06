@@ -13,4 +13,5 @@
     <string name="insert_convert_value">Insert convert value</string>
     <string name="from">From</string>
     <string name="to">To</string>
+    <string name="calculate">Calculate</string>
 </resources>

@@ -2,10 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/spacing_2x"
-    android:layout_marginTop="@dimen/spacing_2x"
-    android:layout_marginEnd="@dimen/spacing_2x"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/spacing_2x"
     tools:context="com.example.currencyconverter.ui.main.convert.ConvertCurrencyFragment">
 
     <TextView
@@ -25,7 +23,6 @@
         style="@style/Currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_4x"
         android:text="EUR"
         app:layout_constraintBottom_toTopOf="@id/fromCurrencyInputContainer"
         app:layout_constraintEnd_toStartOf="@id/selectedToCurrency"
@@ -47,11 +44,11 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4x"
         android:layout_marginEnd="@dimen/spacing_1x"
         android:hint="@string/insert_convert_value"
         app:boxStrokeColor="@color/outline_box_stroke_color"
         app:boxStrokeWidth="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/toCurrencyInputContainer"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,9 +94,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_1x"
+        android:layout_marginTop="@dimen/spacing_4x"
         app:boxStrokeColor="@color/outline_box_stroke_color"
         app:boxStrokeWidth="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@id/fromCurrencyInputContainer"
@@ -112,5 +109,13 @@
             android:enabled="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/buttonCalculate"
+        style="@style/PrimaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/calculate"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
