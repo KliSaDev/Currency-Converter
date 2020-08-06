@@ -22,7 +22,7 @@
     <TextView
         android:id="@+id/buyingRate"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
@@ -39,7 +39,7 @@
     <TextView
         android:id="@+id/middleRate"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
@@ -56,7 +56,7 @@
     <TextView
         android:id="@+id/sellingRate"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
