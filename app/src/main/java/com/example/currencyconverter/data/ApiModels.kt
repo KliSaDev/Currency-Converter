@@ -4,6 +4,9 @@ import com.squareup.moshi.Json
 
 data class Currency(
 
+    @Json(name = "Šifra valute")
+    val id: String,
+
     @Json(name = "Datum primjene")
     val date: String,
 
