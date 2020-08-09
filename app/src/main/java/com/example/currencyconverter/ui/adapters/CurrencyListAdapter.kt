@@ -22,7 +22,7 @@ class CurrencyListAdapter : RecyclerView.Adapter<CurrencyListAdapter.CurrencyLis
     class CurrencyListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItem(currency: Currency, itemClickListener: ((Currency) -> Unit)? = null) {
             itemView.apply {
-                currencyName.text = currency.currency
+                currencyName.text = currency.currencyName
                 buyingRate.text = currency.buyingRate
                 middleRate.text = currency.middleRate
                 sellingRate.text = currency.sellingRate

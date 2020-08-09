@@ -11,7 +11,7 @@ data class Currency(
     val date: String,
 
     @Json(name = "Valuta")
-    val currency: String,
+    val currencyName: String,
 
     @Json(name = "Kupovni za devize")
     val buyingRate: String,
