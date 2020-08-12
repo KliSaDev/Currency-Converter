@@ -17,7 +17,7 @@ abstract class AppModule {
         @Singleton
         fun provideCurrencyDatabase(context: Context): CurrencyDatabase {
             return Room.databaseBuilder(
-                context,
+                context.applicationContext,
                 CurrencyDatabase::class.java,
                 CURRENCY_DATABASE_NAME
             ).build()
