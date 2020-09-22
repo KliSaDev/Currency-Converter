@@ -1,14 +1,24 @@
 package com.example.currencyconverter.network.adapters
 
 import com.squareup.moshi.FromJson
-import java.text.SimpleDateFormat
+import com.squareup.moshi.ToJson
+import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
 class DateAdapter {
 
+    companion object {
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-DD", Locale.GERMANY)
+    }
+
     @FromJson
-    fun fromJson(stringDate: String) {
-        var formatter = SimpleDateFormat("YYYY-MM-DD", Locale.GERMANY)
-        // TODO: finish implementation
+    fun fromJson(stringDate: String): ZonedDateTime {
+        return ZonedDateTime.from(formatter.parse(stringDate))
+    }
+
+    @ToJson
+    fun toJson(dateTime: ZonedDateTime): String {
+        return dateTime.format(formatter)
     }
 }
