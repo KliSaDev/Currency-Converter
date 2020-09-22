@@ -39,13 +39,13 @@ android {
             dimension 'version'
             applicationIdSuffix '.production'
             versionNameSuffix '-production'
-            buildConfigField STRING, "BASE_API_URL", "\"http://api.hnb.hr/tecajn/v1/\""
+            buildConfigField STRING, "BASE_API_URL", "\"http://api.hnb.hr/tecajn/v2/\""
         }
         staging {
             dimension 'version'
             applicationIdSuffix '.staging'
             versionNameSuffix '-staging'
-            buildConfigField STRING, "BASE_API_URL", "\"http://api.hnb.hr/tecajn/v1/\""
+            buildConfigField STRING, "BASE_API_URL", "\"http://api.hnb.hr/tecajn/v2/\""
         }
     }
 

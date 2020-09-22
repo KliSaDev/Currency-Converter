@@ -4,22 +4,22 @@ import com.squareup.moshi.Json
 
 data class Currency(
 
-    @Json(name = "Šifra valute")
+    @Json(name = "sifra_valute")
     val id: String,
 
-    @Json(name = "Datum primjene")
+    @Json(name = "datum_primjene")
     val date: String,
 
-    @Json(name = "Valuta")
+    @Json(name = "valuta")
     val currencyName: String,
 
-    @Json(name = "Kupovni za devize")
+    @Json(name = "kupovni_tecaj")
     val buyingRate: String,
 
-    @Json(name = "Srednji za devize")
+    @Json(name = "srednji_tecaj")
     val middleRate: String,
 
-    @Json(name = "Prodajni za devize")
+    @Json(name = "prodajni_tecaj")
     val sellingRate: String
 
 )
