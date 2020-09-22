@@ -112,6 +112,9 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$rootProject.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
 
+    // ThreeTenABP
+    implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.threeTenABPVersion"
+
     //Logging
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
 

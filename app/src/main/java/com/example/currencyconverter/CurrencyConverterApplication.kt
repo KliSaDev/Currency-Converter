@@ -1,6 +1,7 @@
 package com.example.currencyconverter
 
 import com.example.currencyconverter.di.DaggerAppComponent
+import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import timber.log.Timber
@@ -15,6 +16,7 @@ class CurrencyConverterApplication : DaggerApplication() {
         super.onCreate()
 
         initTimber()
+        AndroidThreeTen.init(this)
     }
 
     private fun initTimber() {
