@@ -3,10 +3,10 @@ package com.example.currencyconverter.data.repositories
 import com.example.currencyconverter.data.Currency
 import com.example.currencyconverter.db.CurrencyDatabase
 import com.example.currencyconverter.db.CurrencyEntity
-import io.reactivex.CompletableObserver
+import com.example.currencyconverter.network.observers.ErrorHandlingCompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 class CurrencyRepository @Inject constructor(
@@ -17,16 +17,10 @@ class CurrencyRepository @Inject constructor(
         currencyDatabase.currencyDao().insertCurrency(currency.toCurrencyEntity())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : CompletableObserver {
+            .subscribe(object : ErrorHandlingCompletableObserver {
                 override fun onComplete() {
+                    Timber.d("Currency ${currency.currencyName} ${currency.id} added.")
                 }
-
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onError(e: Throwable) {
-                }
-
             })
     }
 
