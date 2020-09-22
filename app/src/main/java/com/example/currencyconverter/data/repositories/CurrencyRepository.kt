@@ -7,7 +7,6 @@ import io.reactivex.CompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import javax.inject.Inject
 
 class CurrencyRepository @Inject constructor(
@@ -20,7 +19,6 @@ class CurrencyRepository @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
                 override fun onComplete() {
-                    Timber.d("BASE ${currency.currencyName} added")
                 }
 
                 override fun onSubscribe(d: Disposable) {
