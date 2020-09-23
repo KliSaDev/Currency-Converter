@@ -1,6 +1,7 @@
 package com.example.currencyconverter.data
 
 import com.squareup.moshi.Json
+import org.threeten.bp.LocalDate
 
 data class Currency(
 
@@ -8,7 +9,7 @@ data class Currency(
     val id: String,
 
     @Json(name = "datum_primjene")
-    val date: String,
+    val date: LocalDate,
 
     @Json(name = "valuta")
     val currencyName: String,
