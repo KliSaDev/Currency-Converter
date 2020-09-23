@@ -30,7 +30,6 @@ class CurrencyListViewModel @Inject constructor(
 
         getAllCurrenciesInteractor.execute().subscribe(object : ErrorHandlingSingleObserver<List<Currency>> {
                 override fun onSuccess(currencies: List<Currency>) {
-                    Timber.d("${CurrencyListViewModel::class.simpleName} repository ${currencyRepository.hashCode()}")
                     viewState = CurrencyListState(currencies)
                     currencies.forEach { currency ->
                         currencyRepository.insertCurrency(currency)
