@@ -12,5 +12,5 @@ data class CurrencyEntity(
     @ColumnInfo(name = "currency_name") val currencyName: String,
     @ColumnInfo(name = "buying_rate") val buyingRate: String,
     @ColumnInfo(name = "middle_rate") val middleRate: String,
-    @ColumnInfo(name = "selling_rate") val sellingRate: String?
+    @ColumnInfo(name = "selling_rate") val sellingRate: String
 )

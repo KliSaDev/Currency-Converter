@@ -18,17 +18,42 @@ class CurrencyListViewModel @Inject constructor(
     private val currencyRepository: CurrencyRepository
 ) : BaseViewModel<CurrencyListState, CurrencyListEvent>() {
 
+    private var currencies: List<Currency> = emptyList()
+
     fun init() {
         Timber.d("${CurrencyListViewModel::class.simpleName} initialized")
 
+        val isDatabaseEmpty = getCurrenciesFromDatabase().isNullOrEmpty()
+        if (isDatabaseEmpty) { // TODO add condition for checking whether the information is refreshed
+            getCurrenciesFromAPI()
+        } else {
+            currencies = getCurrenciesFromDatabase()
+            showCurrencies(currencies)
+        }
+    }
+
+    private fun getCurrenciesFromAPI() {
         getAllCurrenciesInteractor.execute().subscribe(object : ErrorHandlingSingleObserver<List<Currency>> {
-                override fun onSuccess(currencies: List<Currency>) {
-                    viewState = CurrencyListState(currencies)
-                    currencies.forEach { currency ->
-                        currencyRepository.insertCurrency(currency)
-                    }
+                override fun onSuccess(updatedCurrencies: List<Currency>) {
+                    currencies = updatedCurrencies
+                    showCurrencies(updatedCurrencies)
+                    insertCurrenciesInDatabase(updatedCurrencies)
                 }
             })
+    }
+
+    private fun getCurrenciesFromDatabase(): List<Currency> {
+        return currencyRepository.getAllCurrencies()
+    }
+
+    private fun showCurrencies(currencies: List<Currency>) {
+        viewState = CurrencyListState(currencies)
+    }
+
+    private fun insertCurrenciesInDatabase(currencies: List<Currency>) {
+        currencies.forEach { currency ->
+            currencyRepository.insertCurrency(currency)
+        }
     }
 }
 
