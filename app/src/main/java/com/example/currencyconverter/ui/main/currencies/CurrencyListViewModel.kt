@@ -10,6 +10,7 @@ import com.example.currencyconverter.network.observers.ErrorHandlingSingleObserv
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import org.threeten.bp.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class CurrencyListViewModel @Inject constructor(
         Timber.d("${CurrencyListViewModel::class.simpleName} initialized")
 
         val isDatabaseEmpty = getCurrenciesFromDatabase().isNullOrEmpty()
-        if (isDatabaseEmpty) { // TODO add condition for checking whether the information is refreshed
+        if (isDatabaseEmpty || shouldCurrenciesBeUpdated()) {
             getCurrenciesFromAPI()
         } else {
             currencies = getCurrenciesFromDatabase()
@@ -44,6 +45,11 @@ class CurrencyListViewModel @Inject constructor(
 
     private fun getCurrenciesFromDatabase(): List<Currency> {
         return currencyRepository.getAllCurrencies()
+    }
+
+    private fun shouldCurrenciesBeUpdated(): Boolean {
+        val lastUpdatedDate = currencyRepository.getTopmostCurrency().date
+        return LocalDate.now() != lastUpdatedDate
     }
 
     private fun showCurrencies(currencies: List<Currency>) {

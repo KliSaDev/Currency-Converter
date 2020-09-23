@@ -1,12 +1,9 @@
 package com.example.currencyconverter.data.repositories
 
-import androidx.lifecycle.LiveData
 import com.example.currencyconverter.data.Currency
 import com.example.currencyconverter.db.CurrencyDatabase
 import com.example.currencyconverter.db.CurrencyEntity
 import com.example.currencyconverter.network.observers.ErrorHandlingCompletableObserver
-import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -25,6 +22,11 @@ class CurrencyRepository @Inject constructor(
                     Timber.d("Currency ${currency.currencyName} ${currency.id} added.")
                 }
             })
+    }
+
+    fun getTopmostCurrency(): Currency {
+        return currencyDatabase.currencyDao().getTopmostCurrency()
+            .subscribeOn(Schedulers.io()).blockingGet().toCurrency()
     }
 
     fun getAllCurrencies(): List<Currency> {
@@ -50,6 +52,17 @@ class CurrencyRepository @Inject constructor(
 
     private fun Currency.toCurrencyEntity(): CurrencyEntity {
         return CurrencyEntity(
+            id = this.id,
+            date = this.date,
+            currencyName = this.currencyName,
+            buyingRate = this.buyingRate,
+            middleRate = this.middleRate,
+            sellingRate = this.sellingRate
+        )
+    }
+
+    private fun CurrencyEntity.toCurrency(): Currency {
+        return Currency(
             id = this.id,
             date = this.date,
             currencyName = this.currencyName,
