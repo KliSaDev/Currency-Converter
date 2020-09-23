@@ -1,7 +1,5 @@
 package com.example.currencyconverter.ui.main.currencies
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.BaseViewModel
 import com.example.currencyconverter.data.Currency
@@ -19,11 +17,6 @@ class CurrencyListViewModel @Inject constructor(
     private val getAllCurrenciesInteractor: GetAllCurrenciesInteractor,
     private val currencyRepository: CurrencyRepository
 ) : BaseViewModel<CurrencyListState, CurrencyListEvent>() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
 
     fun init() {
         Timber.d("${CurrencyListViewModel::class.simpleName} initialized")
