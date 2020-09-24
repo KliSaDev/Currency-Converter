@@ -24,6 +24,11 @@ class CurrencyRepository @Inject constructor(
             })
     }
 
+    fun getCurrencyById(id: String): Currency {
+        return currencyDatabase.currencyDao().getCurrencyById(id)
+            .subscribeOn(Schedulers.io()).blockingGet().toCurrency()
+    }
+
     fun getTopmostCurrency(): Currency {
         return currencyDatabase.currencyDao().getTopmostCurrency()
             .subscribeOn(Schedulers.io()).blockingGet().toCurrency()

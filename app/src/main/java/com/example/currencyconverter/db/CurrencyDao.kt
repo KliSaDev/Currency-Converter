@@ -13,6 +13,9 @@ interface CurrencyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCurrency(vararg currencies: CurrencyEntity): Completable
 
+    @Query("SELECT * FROM currency_entity WHERE id LIKE :id")
+    fun getCurrencyById(id: String): Single<CurrencyEntity>
+
     @Query("SELECT * FROM currency_entity LIMIT 1")
     fun getTopmostCurrency(): Single<CurrencyEntity>
 
