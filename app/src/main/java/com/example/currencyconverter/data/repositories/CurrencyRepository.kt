@@ -34,9 +34,7 @@ class CurrencyRepository @Inject constructor(
             .subscribeOn(Schedulers.io())
             .blockingGet()
 
-        val currencies = mutableListOf<Currency>()
-
-        currencyEntities.mapTo(currencies) { currencyEntity ->
+        return currencyEntities.map { currencyEntity ->
             Currency(
                 id = currencyEntity.id,
                 date = currencyEntity.date,
@@ -45,9 +43,7 @@ class CurrencyRepository @Inject constructor(
                 middleRate = currencyEntity.middleRate,
                 sellingRate = currencyEntity.sellingRate
             )
-        }
-
-        return currencies
+        }.toList()
     }
 
     private fun Currency.toCurrencyEntity(): CurrencyEntity {
