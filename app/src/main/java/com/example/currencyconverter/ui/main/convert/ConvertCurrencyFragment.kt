@@ -32,7 +32,10 @@ class ConvertCurrencyFragment : BaseFragment() {
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
-        fromCurrencyInput.setText(state.fromValue)
+        fromCurrencyInput.apply {
+            setText(state.fromValue)
+            fromCurrencyInput.text?.length?.let { setSelection(it) }
+        }
         toCurrencyInput.setText(state.toValue)
     }
 
