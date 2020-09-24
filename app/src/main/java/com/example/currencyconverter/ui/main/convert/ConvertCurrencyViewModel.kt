@@ -32,6 +32,7 @@ class ConvertCurrencyViewModel @Inject constructor(
 
     fun onCalculateClicked(fromValue: String) {
         viewState = viewState?.copy(
+            fromValue = fromValue,
             toValue = convertValue(fromValue)
         )
     }
