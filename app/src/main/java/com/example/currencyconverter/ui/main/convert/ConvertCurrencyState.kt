@@ -9,3 +9,4 @@ data class ConvertCurrencyState(
 )
 
 sealed class ConvertCurrencyEvent
+object InvalidNumberInput : ConvertCurrencyEvent()

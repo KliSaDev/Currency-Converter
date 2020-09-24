@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
+import com.example.currencyconverter.util.toast
 import kotlinx.android.synthetic.main.fragment_convert_currency.*
 
 class ConvertCurrencyFragment : BaseFragment() {
@@ -24,6 +26,12 @@ class ConvertCurrencyFragment : BaseFragment() {
         viewModel.viewStateData().observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is ConvertCurrencyState -> setupLayout(state)
+            }
+        })
+
+        viewModel.viewEventData().observe(viewLifecycleOwner, Observer { event ->
+            when (event) {
+                is InvalidNumberInput -> context?.toast(getString(R.string.invalid_number_input))
             }
         })
 

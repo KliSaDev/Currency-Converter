@@ -31,10 +31,14 @@ class ConvertCurrencyViewModel @Inject constructor(
     }
 
     fun onCalculateClicked(fromValue: String) {
-        viewState = viewState?.copy(
-            fromValue = fromValue,
-            toValue = convertValue(fromValue)
-        )
+        if (fromValue.isEmpty()) {
+            emitEvent(InvalidNumberInput)
+        } else {
+            viewState = viewState?.copy(
+                fromValue = fromValue,
+                toValue = convertValue(fromValue)
+            )
+        }
     }
 
     private fun convertValue(fromValue: String): String {
