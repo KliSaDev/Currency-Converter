@@ -6,11 +6,7 @@ import com.squareup.moshi.ToJson
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 
-/**
- * This class contains all type converter methods needed for JSON serialization of custom and more
- * complex objects.
- */
-class ConverterAdapters {
+class LocalDateAdapter {
 
     companion object {
         private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
