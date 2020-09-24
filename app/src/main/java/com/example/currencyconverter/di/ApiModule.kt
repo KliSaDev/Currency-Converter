@@ -2,6 +2,7 @@ package com.example.currencyconverter.di
 
 import com.example.currencyconverter.BuildConfig
 import com.example.currencyconverter.network.ApiService
+import com.example.currencyconverter.network.adapters.BigDecimalAdapter
 import com.example.currencyconverter.network.adapters.LocalDateAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -26,6 +27,7 @@ abstract class ApiModule {
             Moshi.Builder()
             .add(KotlinJsonAdapterFactory()) // For Kotlin data class serialization.
             .add(LocalDateAdapter())
+            .add(BigDecimalAdapter())
             .build()
 
         @Provides

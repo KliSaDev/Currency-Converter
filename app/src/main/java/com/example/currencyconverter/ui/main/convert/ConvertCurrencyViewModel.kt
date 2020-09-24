@@ -26,7 +26,7 @@ class ConvertCurrencyViewModel @Inject constructor(
         viewState = ConvertCurrencyState(
             selectedFromCurrency = selectedFromCurrency,
             fromValue = DEFAULT_FROM_CURRENCY_VALUE.toString(),
-            toValue = selectedFromCurrency.middleRate
+            toValue = String.format("%4f", selectedFromCurrency.middleRate)
         )
     }
 
@@ -37,7 +37,7 @@ class ConvertCurrencyViewModel @Inject constructor(
     }
 
     private fun convertValue(fromValue: String): String {
-        return BigDecimal(fromValue).multiply(BigDecimal(selectedFromCurrency.middleRate)).toString()
+        return BigDecimal(fromValue).multiply(selectedFromCurrency.middleRate).toString()
     }
 }
 

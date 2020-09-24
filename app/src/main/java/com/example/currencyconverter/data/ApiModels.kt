@@ -2,6 +2,7 @@ package com.example.currencyconverter.data
 
 import com.squareup.moshi.Json
 import org.threeten.bp.LocalDate
+import java.math.BigDecimal
 
 data class Currency(
 
@@ -15,12 +16,12 @@ data class Currency(
     val currencyName: String,
 
     @Json(name = "kupovni_tecaj")
-    val buyingRate: String,
+    val buyingRate: BigDecimal,
 
     @Json(name = "srednji_tecaj")
-    val middleRate: String,
+    val middleRate: BigDecimal,
 
     @Json(name = "prodajni_tecaj")
-    val sellingRate: String
+    val sellingRate: BigDecimal
 
 )
