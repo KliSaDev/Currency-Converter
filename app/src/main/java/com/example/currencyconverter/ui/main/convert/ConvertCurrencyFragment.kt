@@ -28,10 +28,17 @@ class ConvertCurrencyFragment : BaseFragment() {
         })
 
         viewModel.init()
+        setupCalculateButton()
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
         fromCurrencyInput.setText(state.fromValue)
         toCurrencyInput.setText(state.toValue)
+    }
+
+    private fun setupCalculateButton() {
+        buttonCalculate.setOnClickListener {
+            viewModel.onCalculateClicked(fromCurrencyInput.text.toString())
+        }
     }
 }

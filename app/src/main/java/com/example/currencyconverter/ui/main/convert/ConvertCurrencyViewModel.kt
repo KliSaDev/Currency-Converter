@@ -30,7 +30,13 @@ class ConvertCurrencyViewModel @Inject constructor(
         )
     }
 
-    private fun convertCurrency(fromValue: String): String {
+    fun onCalculateClicked(fromValue: String) {
+        viewState = viewState?.copy(
+            toValue = convertValue(fromValue)
+        )
+    }
+
+    private fun convertValue(fromValue: String): String {
         return BigDecimal(fromValue).multiply(BigDecimal(selectedFromCurrency.middleRate)).toString()
     }
 }
