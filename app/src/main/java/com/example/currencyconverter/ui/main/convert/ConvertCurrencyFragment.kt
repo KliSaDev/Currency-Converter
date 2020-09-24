@@ -21,6 +21,17 @@ class ConvertCurrencyFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.viewStateData().observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is ConvertCurrencyState -> setupLayout(state)
+            }
+        })
+
         viewModel.init()
+    }
+
+    private fun setupLayout(state: ConvertCurrencyState) {
+        fromCurrencyInput.setText(state.fromValue)
+        toCurrencyInput.setText(state.toValue)
     }
 }

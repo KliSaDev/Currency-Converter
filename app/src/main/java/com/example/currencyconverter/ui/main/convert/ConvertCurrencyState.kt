@@ -1,4 +1,11 @@
 package com.example.currencyconverter.ui.main.convert
 
-sealed class ConvertCurrencyState
+import com.example.currencyconverter.data.Currency
+
+data class ConvertCurrencyState(
+    val selectedFromCurrency: Currency,
+    val fromValue: String,
+    val toValue: String
+)
+
 sealed class ConvertCurrencyEvent
