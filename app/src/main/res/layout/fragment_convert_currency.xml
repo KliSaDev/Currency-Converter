@@ -12,20 +12,20 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_1x"
         android:text="@string/from"
-        app:layout_constraintBottom_toTopOf="@id/selectedFromCurrency"
+        app:layout_constraintBottom_toTopOf="@id/selectedFromCurrencyButton"
         app:layout_constraintEnd_toStartOf="@id/toText"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/selectedFromCurrency"
+        android:id="@+id/selectedFromCurrencyButton"
         style="@style/Currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="EUR"
         app:layout_constraintBottom_toTopOf="@id/fromCurrencyInputContainer"
-        app:layout_constraintEnd_toStartOf="@id/selectedToCurrency"
+        app:layout_constraintEnd_toStartOf="@id/selectedToCurrencyButton"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fromText" />
@@ -34,10 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_compare_arrows"
-        app:layout_constraintBottom_toBottomOf="@id/selectedFromCurrency"
-        app:layout_constraintEnd_toStartOf="@id/selectedToCurrency"
-        app:layout_constraintStart_toEndOf="@id/selectedFromCurrency"
-        app:layout_constraintTop_toTopOf="@id/selectedFromCurrency" />
+        app:layout_constraintBottom_toBottomOf="@id/selectedFromCurrencyButton"
+        app:layout_constraintEnd_toStartOf="@id/selectedToCurrencyButton"
+        app:layout_constraintStart_toEndOf="@id/selectedFromCurrencyButton"
+        app:layout_constraintTop_toTopOf="@id/selectedFromCurrencyButton" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fromCurrencyInputContainer"
@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toStartOf="@id/toCurrencyInputContainer"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectedFromCurrency">
+        app:layout_constraintTop_toBottomOf="@id/selectedFromCurrencyButton">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/fromCurrencyInput"
@@ -68,14 +68,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_1x"
         android:text="@string/to"
-        app:layout_constraintBottom_toTopOf="@id/selectedToCurrency"
+        app:layout_constraintBottom_toTopOf="@id/selectedToCurrencyButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@id/fromText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/selectedToCurrency"
+        android:id="@+id/selectedToCurrencyButton"
         style="@style/Currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
         app:layout_constraintBottom_toTopOf="@id/toCurrencyInputContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toEndOf="@id/selectedFromCurrency"
+        app:layout_constraintStart_toEndOf="@id/selectedFromCurrencyButton"
         app:layout_constraintTop_toBottomOf="@id/toText" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -100,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@id/fromCurrencyInputContainer"
-        app:layout_constraintTop_toBottomOf="@id/selectedToCurrency">
+        app:layout_constraintTop_toBottomOf="@id/selectedToCurrencyButton">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/toCurrencyInput"
