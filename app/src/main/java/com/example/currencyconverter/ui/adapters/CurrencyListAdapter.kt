@@ -24,9 +24,9 @@ class CurrencyListAdapter : RecyclerView.Adapter<CurrencyListAdapter.CurrencyLis
             itemView.apply {
                 currencyName.text = currency.currencyName
                 // TODO: check how to convert this to string in a better way
-                buyingRate.text = String.format("%1f", currency.buyingRate)
-                middleRate.text = String.format("%4f", currency.middleRate)
-                sellingRate.text = String.format("%4f", currency.sellingRate)
+                buyingRate.text = currency.buyingRate.toString()
+                middleRate.text = currency.middleRate.toString()
+                sellingRate.text = currency.sellingRate.toString()
             }
         }
     }
