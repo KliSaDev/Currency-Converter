@@ -5,6 +5,7 @@ import com.example.currencyconverter.ui.main.convert.ConvertCurrencyFragment
 import com.example.currencyconverter.ui.main.convert.ConvertCurrencyViewModelModule
 import com.example.currencyconverter.ui.main.currencies.CurrencyListFragment
 import com.example.currencyconverter.ui.main.currencies.CurrencyListViewModelModule
+import com.example.currencyconverter.ui.main.selectcurrency.SelectCurrencyDialog
 import com.example.currencyconverter.ui.main.weeklyrates.WeeklyRatesFragment
 import com.example.currencyconverter.ui.main.weeklyrates.WeeklyRatesViewModelModule
 import dagger.Module
@@ -23,4 +24,7 @@ abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector(modules = [(WeeklyRatesViewModelModule::class)])
     abstract fun contributeWeeklyRatesFragment(): WeeklyRatesFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeSelectCurrencyDialog(): SelectCurrencyDialog
 }

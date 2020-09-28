@@ -4,18 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.data.repositories.CurrencyRepository
+import dagger.android.support.DaggerDialogFragment
+import javax.inject.Inject
 
-class SelectCurrencyDialog : DialogFragment() {
+class SelectCurrencyDialog : DaggerDialogFragment() {
 
     companion object {
         const val TAG = "SelectCurrencyDialog"
         const val ARG_SELECTED_CURRENCY = "ARG_SELECTED_CURRENCY"
 
         @JvmStatic
-        fun newInstance(selectedCurrency: Currency) : SelectCurrencyDialog =
+        fun newInstance(selectedCurrency: Currency): SelectCurrencyDialog =
             SelectCurrencyDialog().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_SELECTED_CURRENCY, selectedCurrency)
@@ -23,7 +25,10 @@ class SelectCurrencyDialog : DialogFragment() {
             }
     }
 
-    private var selectedCurrency : Currency? = null
+    @Inject
+    lateinit var currencyRepository: CurrencyRepository
+
+    private var selectedCurrency: Currency? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,5 @@ class SelectCurrencyDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 }
