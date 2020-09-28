@@ -16,8 +16,7 @@ class SelectCurrencyDialog : DialogFragment() {
 
         @JvmStatic
         fun newInstance(selectedCurrency: Currency) : SelectCurrencyDialog =
-            SelectCurrencyDialog()
-                .apply {
+            SelectCurrencyDialog().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_SELECTED_CURRENCY, selectedCurrency)
                 }

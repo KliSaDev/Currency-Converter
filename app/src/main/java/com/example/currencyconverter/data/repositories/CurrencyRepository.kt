@@ -39,16 +39,7 @@ class CurrencyRepository @Inject constructor(
             .subscribeOn(Schedulers.io())
             .blockingGet()
 
-        return currencyEntities.map { currencyEntity ->
-            Currency(
-                id = currencyEntity.id,
-                date = currencyEntity.date,
-                currencyName = currencyEntity.currencyName,
-                buyingRate = currencyEntity.buyingRate,
-                middleRate = currencyEntity.middleRate,
-                sellingRate = currencyEntity.sellingRate
-            )
-        }.toList()
+        return currencyEntities.map { currencyEntity -> currencyEntity.toCurrency() }.toList()
     }
 
     private fun Currency.toCurrencyEntity(): CurrencyEntity {
