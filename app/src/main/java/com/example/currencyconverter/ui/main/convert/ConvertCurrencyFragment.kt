@@ -58,7 +58,6 @@ class ConvertCurrencyFragment : BaseFragment() {
     }
 
     private fun showSelectCurrencyDialog(selectedFromCurrency: Currency) {
-        this.requireContext().toast("Yaaaayyyyyyyy")
         val openSelectCurrencyDialog = SelectCurrencyDialog.newInstance(selectedFromCurrency)
             .show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
         requireActivity().checkIfFragmentAlreadyOpened(SelectCurrencyDialog.TAG, { openSelectCurrencyDialog })

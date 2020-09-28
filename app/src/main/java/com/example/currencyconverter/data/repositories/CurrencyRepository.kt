@@ -13,6 +13,9 @@ class CurrencyRepository @Inject constructor(
     private val currencyDatabase: CurrencyDatabase
 ) {
 
+    private val allCurrencies: List<Currency> = emptyList()
+    private val topmostCurrency: Currency? = null
+
     fun insertCurrency(currency: Currency) {
         currencyDatabase.currencyDao().insertCurrency(currency.toCurrencyEntity())
             .subscribeOn(Schedulers.io())
@@ -30,16 +33,20 @@ class CurrencyRepository @Inject constructor(
     }
 
     fun getTopmostCurrency(): Currency {
-        return currencyDatabase.currencyDao().getTopmostCurrency()
+        return topmostCurrency ?: currencyDatabase.currencyDao().getTopmostCurrency()
             .subscribeOn(Schedulers.io()).blockingGet().toCurrency()
     }
 
     fun getAllCurrencies(): List<Currency> {
-        val currencyEntities = currencyDatabase.currencyDao().getAllCurrencies()
-            .subscribeOn(Schedulers.io())
-            .blockingGet()
+        return if (allCurrencies.isEmpty()) {
+            val currencyEntities = currencyDatabase.currencyDao().getAllCurrencies()
+                .subscribeOn(Schedulers.io())
+                .blockingGet()
 
-        return currencyEntities.map { currencyEntity -> currencyEntity.toCurrency() }.toList()
+            currencyEntities.map { currencyEntity -> currencyEntity.toCurrency() }.toList()
+        } else {
+            allCurrencies
+        }
     }
 
     private fun Currency.toCurrencyEntity(): CurrencyEntity {
