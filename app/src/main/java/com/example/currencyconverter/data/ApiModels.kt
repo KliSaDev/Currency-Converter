@@ -1,9 +1,12 @@
 package com.example.currencyconverter.data
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.LocalDate
 import java.math.BigDecimal
 
+@Parcelize
 data class Currency(
 
     @Json(name = "sifra_valute")
@@ -24,4 +27,4 @@ data class Currency(
     @Json(name = "prodajni_tecaj")
     val sellingRate: BigDecimal
 
-)
+) : Parcelable

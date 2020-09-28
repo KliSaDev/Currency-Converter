@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.ui.main.selectcurrency.SelectCurrencyDialog
+import com.example.currencyconverter.util.checkIfFragmentAlreadyOpened
 import com.example.currencyconverter.util.toast
 import kotlinx.android.synthetic.main.fragment_convert_currency.*
 
@@ -52,12 +53,15 @@ class ConvertCurrencyFragment : BaseFragment() {
     private fun setupSelectedFromCurrencyButton(selectedFromCurrency: Currency) {
         selectedFromCurrencyButton.apply {
             text = selectedFromCurrency.currencyName
-            setOnClickListener { showChangeCurrencyAlertDialog() }
+            setOnClickListener { showSelectCurrencyDialog(selectedFromCurrency) }
         }
     }
 
-    private fun showChangeCurrencyAlertDialog() {
-        // TODO: implement
+    private fun showSelectCurrencyDialog(selectedFromCurrency: Currency) {
+        this.requireContext().toast("Yaaaayyyyyyyy")
+        val openSelectCurrencyDialog = SelectCurrencyDialog.newInstance(selectedFromCurrency)
+            .show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
+        requireActivity().checkIfFragmentAlreadyOpened(SelectCurrencyDialog.TAG, { openSelectCurrencyDialog })
     }
 
 
