@@ -16,4 +16,8 @@
     <string name="calculate">Calculate</string>
 
     <string name="invalid_number_input">Invalid number input. Please, try again.</string>
+
+    <string name="select_currency_dialog_title">Select another currency</string>
+    <string name="select_currency_dialog_positive_button">OK</string>
+    <string name="select_currency_dialog_negative_button">Cancel</string>
 </resources>
