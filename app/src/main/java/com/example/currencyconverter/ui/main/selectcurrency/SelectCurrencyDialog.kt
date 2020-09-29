@@ -29,7 +29,7 @@ class SelectCurrencyDialog : DaggerDialogFragment() {
 
     @Inject
     lateinit var currencyRepository: CurrencyRepository
-
+    var onConfirmListener: ((String) -> Unit)? = null
     private var selectedCurrency: Currency? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +47,7 @@ class SelectCurrencyDialog : DaggerDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        isCancelable = false
         setupRadioButtons()
         setupButtons()
     }
@@ -66,14 +67,20 @@ class SelectCurrencyDialog : DaggerDialogFragment() {
             setPadding(rb.paddingStart, paddingVertical, rb.paddingEnd, paddingVertical)
         }
         radioGroup.addView(rb)
+        if (currencyName == selectedCurrency?.currencyName) {
+            radioGroup.check(rb.id)
+        }
     }
 
     private fun setupButtons() {
         positiveButton.setOnClickListener {
-            // TODO get checked radio button from radio group and get text
+            val checkedRadioButton =
+                radioGroup.findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
+            val selectedCurrency = checkedRadioButton.text.toString()
+            onConfirmListener?.invoke(selectedCurrency)
+            dismiss()
         }
-        negativeButton.setOnClickListener {
-            // TODO
-        }
+
+        negativeButton.setOnClickListener { dismiss() }
     }
 }
