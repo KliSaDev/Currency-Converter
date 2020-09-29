@@ -45,6 +45,15 @@ class ConvertCurrencyViewModel @Inject constructor(
         }
     }
 
+    fun onNewCurrencySelected(newCurrencyName: String) {
+        val newCurrency = currencyRepository.getAllCurrencies().find {
+            it.currencyName == newCurrencyName
+        }
+        if (newCurrency != null) { selectedFromCurrency = newCurrency }
+
+        viewState = viewState?.copy(selectedFromCurrency = selectedFromCurrency)
+    }
+
     private fun getCurrenciesFromAPI() {
         getAllCurrenciesInteractor.execute().subscribe(object : ErrorHandlingSingleObserver<List<Currency>> {
                 override fun onSuccess(updatedCurrencies: List<Currency>) {

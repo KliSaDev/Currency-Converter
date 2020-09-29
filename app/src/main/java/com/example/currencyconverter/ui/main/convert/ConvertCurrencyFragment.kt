@@ -53,14 +53,22 @@ class ConvertCurrencyFragment : BaseFragment() {
     private fun setupSelectedFromCurrencyButton(selectedFromCurrency: Currency) {
         selectedFromCurrencyButton.apply {
             text = selectedFromCurrency.currencyName
-            setOnClickListener { showSelectCurrencyDialog(selectedFromCurrency) }
+            setOnClickListener {
+                requireActivity().checkIfFragmentAlreadyOpened(SelectCurrencyDialog.TAG, {
+                    showSelectCurrencyDialog(selectedFromCurrency)
+                }
+                )
+            }
         }
     }
 
     private fun showSelectCurrencyDialog(selectedFromCurrency: Currency) {
-        val openSelectCurrencyDialog = SelectCurrencyDialog.newInstance(selectedFromCurrency)
-            .show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
-        requireActivity().checkIfFragmentAlreadyOpened(SelectCurrencyDialog.TAG, { openSelectCurrencyDialog })
+        SelectCurrencyDialog.newInstance(selectedFromCurrency).apply {
+            onConfirmListener = { newSelectedCurrencyName ->
+                viewModel.onNewCurrencySelected(newSelectedCurrencyName)
+            }
+        }.show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
+
     }
 
 
