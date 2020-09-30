@@ -22,6 +22,8 @@ class ConvertCurrencyViewModel @Inject constructor(
 ) : BaseViewModel<ConvertCurrencyState, ConvertCurrencyEvent>() {
 
     private lateinit var selectedFromCurrency: Currency
+    private var fromValue: String = ""
+    private var toValue: String = ""
 
     fun init() {
         Timber.d("${ConvertCurrencyViewModel::class.simpleName} initialized")
@@ -38,9 +40,11 @@ class ConvertCurrencyViewModel @Inject constructor(
         if (fromValue.isEmpty()) {
             emitEvent(InvalidNumberInput)
         } else {
+            this.fromValue = fromValue
+            this.toValue = convertValue(fromValue)
             viewState = viewState?.copy(
                 fromValue = fromValue,
-                toValue = convertValue(fromValue)
+                toValue = toValue
             )
         }
     }
@@ -49,9 +53,14 @@ class ConvertCurrencyViewModel @Inject constructor(
         val newCurrency = currencyRepository.getAllCurrencies().find {
             it.currencyName == newCurrencyName
         }
-        if (newCurrency != null) { selectedFromCurrency = newCurrency }
+        if (newCurrency != null) {
+            selectedFromCurrency = newCurrency
+        }
 
-        viewState = viewState?.copy(selectedFromCurrency = selectedFromCurrency)
+        viewState = viewState?.copy(
+            selectedFromCurrency = selectedFromCurrency,
+            toValue = convertValue(fromValue)
+        )
     }
 
     private fun getCurrenciesFromAPI() {
