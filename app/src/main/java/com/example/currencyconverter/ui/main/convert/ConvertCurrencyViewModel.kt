@@ -8,6 +8,7 @@ import com.example.currencyconverter.di.annotations.ViewModelKey
 import com.example.currencyconverter.network.interactors.GetAllCurrenciesInteractor
 import com.example.currencyconverter.network.observers.ErrorHandlingSingleObserver
 import com.example.currencyconverter.util.DEFAULT_FROM_CURRENCY_VALUE
+import com.example.currencyconverter.util.DEFAULT_TO_CURRENCY_VALUE
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -22,8 +23,8 @@ class ConvertCurrencyViewModel @Inject constructor(
 ) : BaseViewModel<ConvertCurrencyState, ConvertCurrencyEvent>() {
 
     private lateinit var selectedFromCurrency: Currency
-    private var fromValue: String = ""
-    private var toValue: String = ""
+    private var fromValue: String = DEFAULT_FROM_CURRENCY_VALUE.toString()
+    private var toValue: String = DEFAULT_TO_CURRENCY_VALUE.toString()
 
     fun init() {
         Timber.d("${ConvertCurrencyViewModel::class.simpleName} initialized")
@@ -80,10 +81,11 @@ class ConvertCurrencyViewModel @Inject constructor(
 
     private fun setupState() {
         selectedFromCurrency = currencyRepository.getTopmostCurrency()
+        this.toValue = selectedFromCurrency.middleRate.toString()
         viewState = ConvertCurrencyState(
             selectedFromCurrency = selectedFromCurrency,
-            fromValue = DEFAULT_FROM_CURRENCY_VALUE.toString(),
-            toValue = selectedFromCurrency.middleRate.toString()
+            fromValue = fromValue,
+            toValue = toValue
         )
     }
 
