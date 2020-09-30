@@ -1,6 +1,6 @@
 package com.example.currencyconverter.ui.main.convert
 
-import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.data.models.Currency
 
 data class ConvertCurrencyState(
     val selectedFromCurrency: Currency,

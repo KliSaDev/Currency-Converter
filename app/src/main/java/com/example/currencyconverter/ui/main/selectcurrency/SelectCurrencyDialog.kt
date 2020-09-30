@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import com.example.currencyconverter.R
-import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.repositories.CurrencyRepository
 import dagger.android.support.DaggerDialogFragment
 import kotlinx.android.synthetic.main.fragment_select_currency_dialog.*

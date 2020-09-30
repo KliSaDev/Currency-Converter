@@ -1,4 +1,4 @@
-package com.example.currencyconverter.data
+package com.example.currencyconverter.data.models
 
 import android.os.Parcelable
 import com.squareup.moshi.Json

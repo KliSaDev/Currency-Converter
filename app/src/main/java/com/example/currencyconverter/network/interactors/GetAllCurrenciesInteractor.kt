@@ -1,6 +1,6 @@
 package com.example.currencyconverter.network.interactors
 
-import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.network.ApiService
 import com.example.currencyconverter.util.applySchedulers
 import io.reactivex.Single

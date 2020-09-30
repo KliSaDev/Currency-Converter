@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
-import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.ui.main.selectcurrency.SelectCurrencyDialog
 import com.example.currencyconverter.util.checkIfFragmentAlreadyOpened
 import com.example.currencyconverter.util.toast

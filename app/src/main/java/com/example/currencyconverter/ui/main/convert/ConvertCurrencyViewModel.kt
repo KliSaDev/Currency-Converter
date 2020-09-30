@@ -2,7 +2,7 @@ package com.example.currencyconverter.ui.main.convert
 
 import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.BaseViewModel
-import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.repositories.CurrencyRepository
 import com.example.currencyconverter.di.annotations.ViewModelKey
 import com.example.currencyconverter.network.interactors.GetAllCurrenciesInteractor

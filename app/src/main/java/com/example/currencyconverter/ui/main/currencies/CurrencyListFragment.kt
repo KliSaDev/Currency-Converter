@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
-import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.ui.adapters.CurrencyListAdapter
 import com.example.currencyconverter.util.show
 import kotlinx.android.synthetic.main.fragment_currency_list.*

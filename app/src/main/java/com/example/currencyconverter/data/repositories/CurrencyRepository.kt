@@ -1,6 +1,6 @@
 package com.example.currencyconverter.data.repositories
 
-import com.example.currencyconverter.data.Currency
+import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.db.CurrencyDatabase
 import com.example.currencyconverter.db.CurrencyEntity
 import com.example.currencyconverter.network.observers.ErrorHandlingCompletableObserver
