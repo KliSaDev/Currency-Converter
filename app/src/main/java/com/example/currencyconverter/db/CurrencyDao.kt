@@ -16,9 +16,6 @@ interface CurrencyDao {
     @Query("SELECT * FROM currency_entity WHERE id LIKE :id")
     fun getCurrencyById(id: String): Single<CurrencyEntity>
 
-    @Query("SELECT * FROM currency_entity LIMIT 1")
-    fun getTopmostCurrency(): Single<CurrencyEntity>
-
     @Query("SELECT * FROM currency_entity ORDER BY currency_name")
     fun getAllCurrencies(): Single<List<CurrencyEntity>>
 }
