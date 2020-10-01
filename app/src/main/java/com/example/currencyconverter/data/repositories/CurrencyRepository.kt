@@ -14,7 +14,6 @@ class CurrencyRepository @Inject constructor(
 ) {
 
     private val allCurrencies: List<Currency> = emptyList()
-    private val topmostCurrency: Currency? = null
 
     fun insertCurrency(currency: Currency) {
         currencyDatabase.currencyDao().insertCurrency(currency.toCurrencyEntity())
