@@ -33,8 +33,7 @@ class CurrencyRepository @Inject constructor(
     }
 
     fun getTopmostCurrency(): Currency {
-        return topmostCurrency ?: currencyDatabase.currencyDao().getTopmostCurrency()
-            .subscribeOn(Schedulers.io()).blockingGet().toCurrency()
+        return getAllCurrencies()[0]
     }
 
     fun getAllCurrencies(): List<Currency> {
