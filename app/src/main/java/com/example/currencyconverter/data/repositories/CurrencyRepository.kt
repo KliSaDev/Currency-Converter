@@ -54,7 +54,8 @@ class CurrencyRepository @Inject constructor(
             currencyName = this.currencyName,
             buyingRate = this.buyingRate,
             middleRate = this.middleRate,
-            sellingRate = this.sellingRate
+            sellingRate = this.sellingRate,
+            dailyValues = this.dailyValues
         )
     }
 
@@ -65,7 +66,8 @@ class CurrencyRepository @Inject constructor(
             currencyName = this.currencyName,
             buyingRate = this.buyingRate,
             middleRate = this.middleRate,
-            sellingRate = this.sellingRate
+            sellingRate = this.sellingRate,
+            dailyValues = this.dailyValues
         )
     }
 }
