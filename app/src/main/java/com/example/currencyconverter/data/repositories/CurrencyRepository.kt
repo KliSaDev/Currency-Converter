@@ -1,6 +1,7 @@
 package com.example.currencyconverter.data.repositories
 
 import com.example.currencyconverter.data.models.Currency
+import com.example.currencyconverter.data.models.DailyCurrencyValue
 import com.example.currencyconverter.db.CurrencyDatabase
 import com.example.currencyconverter.db.CurrencyEntity
 import com.example.currencyconverter.network.observers.ErrorHandlingCompletableObserver
@@ -15,20 +16,24 @@ class CurrencyRepository @Inject constructor(
 
     private val allCurrencies: List<Currency> = emptyList()
 
-    fun insertCurrency(currency: Currency) {
+    fun insertCurrency(currency: Currency, onCompleteListener: (() -> Unit)) {
         currencyDatabase.currencyDao().insertCurrency(currency.toCurrencyEntity())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : ErrorHandlingCompletableObserver {
                 override fun onComplete() {
                     Timber.d("Currency ${currency.currencyName} ${currency.id} added.")
+                    onCompleteListener()
                 }
             })
     }
 
-    fun getCurrencyById(id: String): Currency {
-        return currencyDatabase.currencyDao().getCurrencyById(id)
-            .subscribeOn(Schedulers.io()).blockingGet().toCurrency()
+    fun getCurrencyById(id: String): Currency? {
+        return getAllCurrencies().find { it.id == id }
+    }
+
+    fun getDailyCurrencyValues(id: String): List<DailyCurrencyValue> {
+        return getCurrencyById(id)?.dailyValues ?: emptyList()
     }
 
     fun getTopmostCurrency(): Currency {

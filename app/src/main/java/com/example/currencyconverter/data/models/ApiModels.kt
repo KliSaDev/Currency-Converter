@@ -27,6 +27,6 @@ data class Currency(
     @Json(name = "prodajni_tecaj")
     val sellingRate: BigDecimal,
 
-    val dailyValues: List<DailyCurrencyValue> = emptyList()
+    var dailyValues: List<DailyCurrencyValue> = emptyList()
 
 ) : Parcelable

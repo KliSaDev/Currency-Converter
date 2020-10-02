@@ -3,6 +3,7 @@ package com.example.currencyconverter.ui.main.convert
 import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.BaseViewModel
 import com.example.currencyconverter.data.models.Currency
+import com.example.currencyconverter.data.models.DailyCurrencyValue
 import com.example.currencyconverter.data.repositories.CurrencyRepository
 import com.example.currencyconverter.di.annotations.ViewModelKey
 import com.example.currencyconverter.network.interactors.GetAllCurrenciesInteractor
@@ -68,15 +69,26 @@ class ConvertCurrencyViewModel @Inject constructor(
         getAllCurrenciesInteractor.execute().subscribe(object : ErrorHandlingSingleObserver<List<Currency>> {
                 override fun onSuccess(updatedCurrencies: List<Currency>) {
                     insertCurrenciesInDatabase(updatedCurrencies)
-                    setupState()
                 }
             })
     }
 
     private fun insertCurrenciesInDatabase(currencies: List<Currency>) {
         currencies.forEach { currency ->
-            currencyRepository.insertCurrency(currency)
+            currencyRepository.insertCurrency(setDailyValues(currency), { setupState() })
         }
+    }
+
+    private fun setDailyValues(currency: Currency): Currency {
+        val dailyValues = currencyRepository.getDailyCurrencyValues(currency.id).toMutableList()
+        dailyValues.add(
+            DailyCurrencyValue(
+                date = currency.date,
+                middleRate = currency.middleRate
+            )
+        )
+        currency.dailyValues = dailyValues
+        return currency
     }
 
     private fun setupState() {
