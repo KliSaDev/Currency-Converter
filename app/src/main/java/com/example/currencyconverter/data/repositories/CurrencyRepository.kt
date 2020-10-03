@@ -16,14 +16,14 @@ class CurrencyRepository @Inject constructor(
 
     private val allCurrencies: List<Currency> = emptyList()
 
-    fun insertCurrency(currency: Currency, onCompleteListener: (() -> Unit)) {
+    fun insertCurrency(currency: Currency, onCompleteListener: (() -> Unit)? = null) {
         currencyDatabase.currencyDao().insertCurrency(currency.toCurrencyEntity())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : ErrorHandlingCompletableObserver {
                 override fun onComplete() {
                     Timber.d("Currency ${currency.currencyName} ${currency.id} added.")
-                    onCompleteListener()
+                    onCompleteListener?.invoke()
                 }
             })
     }

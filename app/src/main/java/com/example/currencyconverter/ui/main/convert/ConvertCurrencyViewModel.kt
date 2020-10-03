@@ -75,8 +75,12 @@ class ConvertCurrencyViewModel @Inject constructor(
     }
 
     private fun insertCurrenciesInDatabase(currencies: List<Currency>) {
-        currencies.forEach { currency ->
-            currencyRepository.insertCurrency(setDailyValues(currency), { setupState() })
+        currencies.forEachIndexed { index, currency ->
+            currencyRepository.insertCurrency(
+                setDailyValues(currency),
+                // We just want to setup state when the last Currency is inserted.
+                { if (index == currencies.size - 1) { setupState() } }
+            )
         }
     }
 
@@ -91,7 +95,9 @@ class ConvertCurrencyViewModel @Inject constructor(
 
         // We only want to show 7 values. If the list contains more than that, we remove
         // the oldest value, which is first in the list.
-        if (dailyValues.size > MAX_DAILY_VALUES) { dailyValues.removeAt(0) }
+        if (dailyValues.size > MAX_DAILY_VALUES) {
+            dailyValues.removeAt(0)
+        }
         currency.dailyValues = dailyValues
         return currency
     }

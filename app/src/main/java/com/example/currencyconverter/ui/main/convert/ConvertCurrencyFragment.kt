@@ -54,9 +54,9 @@ class ConvertCurrencyFragment : BaseFragment() {
         selectedFromCurrencyButton.apply {
             text = selectedFromCurrency.currencyName
             setOnClickListener {
-                requireActivity().checkIfFragmentAlreadyOpened(SelectCurrencyDialog.TAG, {
-                    showSelectCurrencyDialog(selectedFromCurrency)
-                }
+                requireActivity().checkIfFragmentAlreadyOpened(
+                    SelectCurrencyDialog.TAG,
+                    { showSelectCurrencyDialog(selectedFromCurrency) }
                 )
             }
         }
