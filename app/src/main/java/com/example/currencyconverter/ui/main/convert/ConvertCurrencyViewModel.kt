@@ -10,6 +10,7 @@ import com.example.currencyconverter.network.interactors.GetAllCurrenciesInterac
 import com.example.currencyconverter.network.observers.ErrorHandlingSingleObserver
 import com.example.currencyconverter.util.DEFAULT_FROM_CURRENCY_VALUE
 import com.example.currencyconverter.util.DEFAULT_TO_CURRENCY_VALUE
+import com.example.currencyconverter.util.MAX_DAILY_VALUES
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -87,6 +88,10 @@ class ConvertCurrencyViewModel @Inject constructor(
                 middleRate = currency.middleRate
             )
         )
+
+        // We only want to show 7 values. If the list contains more than that, we remove
+        // the oldest value, which is first in the list.
+        if (dailyValues.size > MAX_DAILY_VALUES) { dailyValues.removeAt(0) }
         currency.dailyValues = dailyValues
         return currency
     }
