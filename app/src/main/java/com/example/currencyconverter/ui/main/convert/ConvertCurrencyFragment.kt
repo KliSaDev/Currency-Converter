@@ -43,6 +43,7 @@ class ConvertCurrencyFragment : BaseFragment() {
 
     private fun setupLayout(state: ConvertCurrencyState) {
         setupSelectedFromCurrencyButton(state.selectedFromCurrency)
+        setupSelectedToCurrencyButton()
         fromCurrencyInput.apply {
             setText(state.fromValue)
             fromCurrencyInput.text?.length?.let { setSelection(it) }
@@ -60,6 +61,10 @@ class ConvertCurrencyFragment : BaseFragment() {
                 )
             }
         }
+    }
+
+    private fun setupSelectedToCurrencyButton() {
+        selectedToCurrencyButton.text = getString(R.string.hrk)
     }
 
     private fun showSelectCurrencyDialog(selectedFromCurrency: Currency) {
