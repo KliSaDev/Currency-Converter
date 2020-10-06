@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.models.DailyCurrencyValue
+import com.example.currencyconverter.util.getCompatColor
+import com.example.currencyconverter.util.getDay
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -47,12 +48,7 @@ class WeeklyRatesFragment : BaseFragment() {
         weeklyRatesChart.setScaleEnabled(false)
         weeklyRatesChart.legend.isEnabled = false
         weeklyRatesChart.setDrawGridBackground(false)
-        weeklyRatesChart.setBorderColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.colorPrimary
-            )
-        )
+        weeklyRatesChart.setBorderColor(requireContext().getCompatColor(R.color.colorPrimary))
         weeklyRatesChart.invalidate()
     }
 
@@ -63,7 +59,7 @@ class WeeklyRatesFragment : BaseFragment() {
         dailyValues.forEachIndexed { index, dailyValue ->
             val rateValue = dailyValue.middleRate.setScale(3, RoundingMode.DOWN).toFloat()
             entries.add(Entry(index.toFloat(), rateValue))
-            xAxisLabels.add(dailyValue.date.toString())
+            xAxisLabels.add(dailyValue.date.getDay())
         }
 
         weeklyRatesChart.xAxis.valueFormatter = object : ValueFormatter() {
@@ -74,10 +70,10 @@ class WeeklyRatesFragment : BaseFragment() {
 
         val dataSet = LineDataSet(entries, "")
         dataSet.lineWidth = 3f
-        dataSet.circleRadius = 3f
-        dataSet.circleHoleColor = ContextCompat.getColor(requireContext(), R.color.colorAccent)
-        dataSet.circleColors = mutableListOf(ContextCompat.getColor(requireContext(), R.color.colorAccent))
-        dataSet.color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
+        dataSet.circleRadius = 5f
+        dataSet.circleHoleColor = requireContext().getCompatColor(R.color.colorAccent)
+        dataSet.circleColors = mutableListOf(requireContext().getCompatColor(R.color.colorAccent))
+        dataSet.color = requireContext().getCompatColor(R.color.colorAccent)
         weeklyRatesChart.data = LineData(dataSet)
     }
 
