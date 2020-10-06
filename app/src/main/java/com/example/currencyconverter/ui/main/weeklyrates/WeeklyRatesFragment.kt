@@ -35,9 +35,6 @@ class WeeklyRatesFragment : BaseFragment() {
         viewModel.init()
         setupChart()
         setupXAxis()
-
-        val yAxisRight = weeklyRatesChart.axisRight
-        yAxisRight.isEnabled = false
     }
 
     private fun setupChart() {
@@ -75,6 +72,13 @@ class WeeklyRatesFragment : BaseFragment() {
         dataSet.circleColors = mutableListOf(requireContext().getCompatColor(R.color.colorAccent))
         dataSet.color = requireContext().getCompatColor(R.color.colorAccent)
         weeklyRatesChart.data = LineData(dataSet)
+
+        val yAxisRight = weeklyRatesChart.axisRight
+        yAxisRight.isEnabled = false
+        val yAxisLeft = weeklyRatesChart.axisLeft
+        yAxisLeft.gridColor = requireContext().getCompatColor(R.color.colorPrimary_40Alpha)
+//        yAxisLeft.axisMinimum = 4f
+//        yAxisLeft.axisMaximum = 5f // TODO set of selected currency
     }
 
     private fun setupXAxis() {
