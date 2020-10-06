@@ -40,14 +40,13 @@ class WeeklyRatesFragment : BaseFragment() {
     }
 
     private fun setupChart() {
-        weeklyRatesChart.setBorderWidth(2.0f)
+        weeklyRatesChart.setBorderWidth(3.0f)
         weeklyRatesChart.isHighlightPerTapEnabled = false
         weeklyRatesChart.setDrawBorders(true)
         weeklyRatesChart.description.isEnabled = false
         weeklyRatesChart.setScaleEnabled(false)
         weeklyRatesChart.legend.isEnabled = false
         weeklyRatesChart.setDrawGridBackground(false)
-        weeklyRatesChart.setFitBars(true)
         weeklyRatesChart.setBorderColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -58,12 +57,12 @@ class WeeklyRatesFragment : BaseFragment() {
     }
 
     private fun setupChartData(dailyValues: List<DailyCurrencyValue>) {
-        val entries = mutableListOf<BarEntry>()
+        val entries = mutableListOf<Entry>()
         val xAxisLabels = mutableListOf<String>()
 
         dailyValues.forEachIndexed { index, dailyValue ->
             val rateValue = dailyValue.middleRate.setScale(3, RoundingMode.DOWN).toFloat()
-            entries.add(BarEntry(index.toFloat(), rateValue))
+            entries.add(Entry(index.toFloat(), rateValue))
             xAxisLabels.add(dailyValue.date.toString())
         }
 
@@ -73,9 +72,13 @@ class WeeklyRatesFragment : BaseFragment() {
             }
         }
 
-        val dataSet = BarDataSet(entries, "")
+        val dataSet = LineDataSet(entries, "")
+        dataSet.lineWidth = 3f
+        dataSet.circleRadius = 3f
+        dataSet.circleHoleColor = ContextCompat.getColor(requireContext(), R.color.colorAccent)
+        dataSet.circleColors = mutableListOf(ContextCompat.getColor(requireContext(), R.color.colorAccent))
         dataSet.color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
-        weeklyRatesChart.data = BarData(dataSet)
+        weeklyRatesChart.data = LineData(dataSet)
     }
 
     private fun setupXAxis() {
@@ -83,5 +86,7 @@ class WeeklyRatesFragment : BaseFragment() {
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
         xAxis.granularity = 1f
+        xAxis.spaceMax = 0.3f
+        xAxis.spaceMin = 0.3f
     }
 }
