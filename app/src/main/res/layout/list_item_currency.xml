@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacing_2x"
-        android:background="@drawable/bg_rectangle"
+        android:background="@drawable/bg_rectangle_gray"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp"
