@@ -73,7 +73,6 @@ class ConvertCurrencyFragment : BaseFragment() {
                 viewModel.onNewCurrencySelected(newSelectedCurrencyName)
             }
         }.show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
-
     }
 
 

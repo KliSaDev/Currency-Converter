@@ -1,9 +1,8 @@
 package com.example.currencyconverter.ui.main.weeklyrates
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.BaseViewModel
+import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.repositories.CurrencyRepository
 import com.example.currencyconverter.di.annotations.ViewModelKey
 import dagger.Binds
@@ -16,15 +15,26 @@ class WeeklyRatesViewModel @Inject constructor(
     private val currencyRepository: CurrencyRepository
 ) : BaseViewModel<WeeklyRatesState, WeeklyRatesEvent>() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
-    }
-    val text: LiveData<String> = _text
+    private lateinit var selectedFromCurrency: Currency
 
     fun init() {
         Timber.d("${WeeklyRatesViewModel::class.simpleName} initialized")
-        val dailyValues = currencyRepository.getDailyCurrencyValues(currencyRepository.getTopmostCurrency().id)
-        viewState = WeeklyRatesState(dailyValues)
+        selectedFromCurrency = currencyRepository.getTopmostCurrency()
+        viewState = WeeklyRatesState(selectedFromCurrency, selectedFromCurrency.dailyValues)
+    }
+
+    fun onNewCurrencySelected(newCurrencyName: String) {
+        val newCurrency = currencyRepository.getAllCurrencies().find {
+            it.currencyName == newCurrencyName
+        }
+        if (newCurrency != null) {
+            selectedFromCurrency = newCurrency
+        }
+
+        viewState = viewState?.copy(
+            selectedFromCurrency = selectedFromCurrency,
+            dailyValues = selectedFromCurrency.dailyValues
+        )
     }
 }
 

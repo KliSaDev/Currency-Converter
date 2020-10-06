@@ -8,24 +8,24 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
 import com.example.currencyconverter.R
+import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.models.DailyCurrencyValue
+import com.example.currencyconverter.ui.main.selectcurrency.SelectCurrencyDialog
+import com.example.currencyconverter.util.checkIfFragmentAlreadyOpened
 import com.example.currencyconverter.util.getCompatColor
 import com.example.currencyconverter.util.getDay
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.fragment_weekly_rates.*
+import kotlinx.android.synthetic.main.fragment_weekly_rates.selectedFromCurrencyButton
 import java.math.RoundingMode
 
 class WeeklyRatesFragment : BaseFragment() {
 
     private val viewModel by viewModels<WeeklyRatesViewModel> { factory }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_weekly_rates, container, false)
     }
 
@@ -34,6 +34,7 @@ class WeeklyRatesFragment : BaseFragment() {
 
         viewModel.viewStateData().observe(viewLifecycleOwner, Observer { state ->
             setupChartData(state.dailyValues)
+            setupSelectedFromCurrencyButton(state.selectedFromCurrency)
         })
 
         viewModel.init()
@@ -79,7 +80,11 @@ class WeeklyRatesFragment : BaseFragment() {
             circleColors = mutableListOf(requireContext().getCompatColor(R.color.colorAccent))
             color = requireContext().getCompatColor(R.color.colorAccent)
         }
-        weeklyRatesChart.data = LineData(dataSet)
+        weeklyRatesChart.apply {
+            data = LineData(dataSet)
+            notifyDataSetChanged()
+            invalidate()
+        }
 
         val yAxisRight = weeklyRatesChart.axisRight
         yAxisRight.isEnabled = false
@@ -98,5 +103,25 @@ class WeeklyRatesFragment : BaseFragment() {
             spaceMax = 0.3f
             spaceMin = 0.3f
         }
+    }
+
+    private fun setupSelectedFromCurrencyButton(selectedFromCurrency: Currency) {
+        selectedFromCurrencyButton.apply {
+            text = selectedFromCurrency.currencyName
+            setOnClickListener {
+                requireActivity().checkIfFragmentAlreadyOpened(
+                    SelectCurrencyDialog.TAG,
+                    { showSelectCurrencyDialog(selectedFromCurrency) }
+                )
+            }
+        }
+    }
+
+    private fun showSelectCurrencyDialog(selectedFromCurrency: Currency) {
+        SelectCurrencyDialog.newInstance(selectedFromCurrency).apply {
+            onConfirmListener = { newSelectedCurrencyName ->
+                viewModel.onNewCurrencySelected(newSelectedCurrencyName)
+            }
+        }.show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
     }
 }
