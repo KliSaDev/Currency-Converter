@@ -21,7 +21,11 @@ class WeeklyRatesFragment : BaseFragment() {
 
     private val viewModel by viewModels<WeeklyRatesViewModel> { factory }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_weekly_rates, container, false)
     }
 
@@ -38,15 +42,17 @@ class WeeklyRatesFragment : BaseFragment() {
     }
 
     private fun setupChart() {
-        weeklyRatesChart.setBorderWidth(3.0f)
-        weeklyRatesChart.isHighlightPerTapEnabled = false
-        weeklyRatesChart.setDrawBorders(true)
-        weeklyRatesChart.description.isEnabled = false
-        weeklyRatesChart.setScaleEnabled(false)
-        weeklyRatesChart.legend.isEnabled = false
-        weeklyRatesChart.setDrawGridBackground(false)
-        weeklyRatesChart.setBorderColor(requireContext().getCompatColor(R.color.colorPrimary))
-        weeklyRatesChart.invalidate()
+        weeklyRatesChart.apply {
+            setBorderWidth(3.0f)
+            isHighlightPerTapEnabled = false
+            setDrawBorders(true)
+            description.isEnabled = false
+            setScaleEnabled(false)
+            legend.isEnabled = false
+            setDrawGridBackground(false)
+            setBorderColor(requireContext().getCompatColor(R.color.colorPrimary))
+            invalidate()
+        }
     }
 
     private fun setupChartData(dailyValues: List<DailyCurrencyValue>) {
@@ -66,11 +72,13 @@ class WeeklyRatesFragment : BaseFragment() {
         }
 
         val dataSet = LineDataSet(entries, "")
-        dataSet.lineWidth = 3f
-        dataSet.circleRadius = 5f
-        dataSet.circleHoleColor = requireContext().getCompatColor(R.color.colorAccent)
-        dataSet.circleColors = mutableListOf(requireContext().getCompatColor(R.color.colorAccent))
-        dataSet.color = requireContext().getCompatColor(R.color.colorAccent)
+        dataSet.apply {
+            lineWidth = 3f
+            circleRadius = 5f
+            circleHoleColor = requireContext().getCompatColor(R.color.colorAccent)
+            circleColors = mutableListOf(requireContext().getCompatColor(R.color.colorAccent))
+            color = requireContext().getCompatColor(R.color.colorAccent)
+        }
         weeklyRatesChart.data = LineData(dataSet)
 
         val yAxisRight = weeklyRatesChart.axisRight
@@ -83,10 +91,12 @@ class WeeklyRatesFragment : BaseFragment() {
 
     private fun setupXAxis() {
         val xAxis = weeklyRatesChart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
-        xAxis.granularity = 1f
-        xAxis.spaceMax = 0.3f
-        xAxis.spaceMin = 0.3f
+        xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawGridLines(false)
+            granularity = 1f
+            spaceMax = 0.3f
+            spaceMin = 0.3f
+        }
     }
 }
