@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.BaseViewModel
 import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.models.DailyCurrencyValue
+import com.example.currencyconverter.data.models.GetCurrenciesByDateParams
 import com.example.currencyconverter.data.repositories.CurrencyRepository
 import com.example.currencyconverter.di.annotations.ViewModelKey
 import com.example.currencyconverter.network.interactors.GetAllCurrenciesInteractor
+import com.example.currencyconverter.network.interactors.GetCurrenciesByDateInteractor
 import com.example.currencyconverter.network.observers.ErrorHandlingSingleObserver
 import com.example.currencyconverter.util.DEFAULT_FROM_CURRENCY_VALUE
 import com.example.currencyconverter.util.DEFAULT_TO_CURRENCY_VALUE
@@ -20,6 +22,7 @@ import java.math.BigDecimal
 import javax.inject.Inject
 
 class ConvertCurrencyViewModel @Inject constructor(
+    private val getCurrenciesByDateInteractor: GetCurrenciesByDateInteractor,
     private val getAllCurrenciesInteractor: GetAllCurrenciesInteractor,
     private val currencyRepository: CurrencyRepository
 ) : BaseViewModel<ConvertCurrencyState, ConvertCurrencyEvent>() {
@@ -32,7 +35,9 @@ class ConvertCurrencyViewModel @Inject constructor(
         Timber.d("${ConvertCurrencyViewModel::class.simpleName} initialized")
 
         val isDatabaseEmpty = getCurrenciesFromDatabase().isNullOrEmpty()
-        if (isDatabaseEmpty || shouldCurrenciesBeUpdated()) {
+        if (isDatabaseEmpty) {
+            getCurrenciesByDate()
+        } else if (shouldCurrenciesBeUpdated()) {
             getCurrenciesFromAPI()
         } else {
             setupState()
@@ -64,6 +69,19 @@ class ConvertCurrencyViewModel @Inject constructor(
             selectedFromCurrency = selectedFromCurrency,
             toValue = convertValue(fromValue)
         )
+    }
+
+    private fun getCurrenciesByDate() {
+        val params = GetCurrenciesByDateParams(
+            LocalDate.now().minusDays(6).toString(),
+            LocalDate.now().toString()
+        )
+
+        getCurrenciesByDateInteractor.execute(params).subscribe(object: ErrorHandlingSingleObserver<List<Currency>> {
+            override fun onSuccess(currencies: List<Currency>) {
+
+            }
+        })
     }
 
     private fun getCurrenciesFromAPI() {
