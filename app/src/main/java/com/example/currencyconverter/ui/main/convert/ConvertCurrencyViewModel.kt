@@ -10,6 +10,7 @@ import com.example.currencyconverter.di.annotations.ViewModelKey
 import com.example.currencyconverter.network.interactors.GetAllCurrenciesInteractor
 import com.example.currencyconverter.network.interactors.GetCurrenciesByDateInteractor
 import com.example.currencyconverter.network.observers.ErrorHandlingSingleObserver
+import com.example.currencyconverter.util.DAYS_TO_SUBTRACT_FOR_WEEKLY_RATES
 import com.example.currencyconverter.util.DEFAULT_FROM_CURRENCY_VALUE
 import com.example.currencyconverter.util.DEFAULT_TO_CURRENCY_VALUE
 import com.example.currencyconverter.util.MAX_DAILY_VALUES
@@ -73,7 +74,7 @@ class ConvertCurrencyViewModel @Inject constructor(
 
     private fun getCurrenciesByDate() {
         val params = GetCurrenciesByDateParams(
-            LocalDate.now().minusDays(6).toString(),
+            LocalDate.now().minusDays(DAYS_TO_SUBTRACT_FOR_WEEKLY_RATES).toString(),
             LocalDate.now().toString()
         )
 
