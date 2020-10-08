@@ -21,4 +21,7 @@
     <string name="select_currency_dialog_title">Select another currency</string>
     <string name="select_currency_dialog_positive_button">OK</string>
     <string name="select_currency_dialog_negative_button">Cancel</string>
+
+    <string name="no_internet_connection_title">Seems like you\'re offline. Check your Internet connection and retry.</string>
+    <string name="retry_button">Retry</string>
 </resources>
