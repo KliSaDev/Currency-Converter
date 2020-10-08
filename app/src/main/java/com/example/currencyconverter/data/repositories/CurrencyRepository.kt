@@ -28,6 +28,17 @@ class CurrencyRepository @Inject constructor(
             })
     }
 
+    fun updateCurrency(currency: Currency) {
+        currencyDatabase.currencyDao().updateCurrency(currency.toCurrencyEntity())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : ErrorHandlingCompletableObserver {
+                override fun onComplete() {
+                    Timber.d("Currency ${currency.currencyName} ${currency.id} updated.")
+                }
+            })
+    }
+
     fun getCurrencyById(id: String): Currency? {
         return getAllCurrencies().find { it.id == id }
     }

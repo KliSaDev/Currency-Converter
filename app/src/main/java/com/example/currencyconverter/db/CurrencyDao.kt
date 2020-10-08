@@ -1,9 +1,6 @@
 package com.example.currencyconverter.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -12,6 +9,9 @@ interface CurrencyDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCurrency(vararg currencies: CurrencyEntity): Completable
+
+    @Update
+    fun updateCurrency(currency: CurrencyEntity): Completable
 
     @Query("SELECT * FROM currency_entity WHERE id LIKE :id")
     fun getCurrencyById(id: String): Single<CurrencyEntity>

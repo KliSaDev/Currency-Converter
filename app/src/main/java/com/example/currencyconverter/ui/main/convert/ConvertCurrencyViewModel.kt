@@ -37,7 +37,7 @@ class ConvertCurrencyViewModel @Inject constructor(
 
         val isDatabaseEmpty = getCurrenciesFromDatabase().isNullOrEmpty()
         if (isDatabaseEmpty) {
-            getCurrenciesByDate()
+            getCurrenciesFromAPI(true)
         } else if (shouldCurrenciesBeUpdated()) {
             getCurrenciesFromAPI()
         } else {
@@ -72,23 +72,11 @@ class ConvertCurrencyViewModel @Inject constructor(
         )
     }
 
-    private fun getCurrenciesByDate() {
-        val params = GetCurrenciesByDateParams(
-            LocalDate.now().minusDays(DAYS_TO_SUBTRACT_FOR_WEEKLY_RATES).toString(),
-            LocalDate.now().toString()
-        )
-
-        getCurrenciesByDateInteractor.execute(params).subscribe(object: ErrorHandlingSingleObserver<List<Currency>> {
-            override fun onSuccess(currencies: List<Currency>) {
-
-            }
-        })
-    }
-
-    private fun getCurrenciesFromAPI() {
+    private fun getCurrenciesFromAPI(shouldGetCurrenciesByDate: Boolean = false) {
         getAllCurrenciesInteractor.execute().subscribe(object : ErrorHandlingSingleObserver<List<Currency>> {
                 override fun onSuccess(updatedCurrencies: List<Currency>) {
                     insertCurrenciesInDatabase(updatedCurrencies)
+                    if (shouldGetCurrenciesByDate) getCurrenciesByDate()
                 }
             })
     }
@@ -101,6 +89,35 @@ class ConvertCurrencyViewModel @Inject constructor(
                 { if (index == currencies.size - 1) { setupState() } }
             )
         }
+    }
+
+    private fun getCurrenciesByDate() {
+        val params = GetCurrenciesByDateParams(
+            LocalDate.now().minusDays(DAYS_TO_SUBTRACT_FOR_WEEKLY_RATES).toString(),
+            LocalDate.now().toString()
+        )
+
+        getCurrenciesByDateInteractor.execute(params).subscribe(object : ErrorHandlingSingleObserver<List<Currency>> {
+            override fun onSuccess(currenciesByDate: List<Currency>) {
+                currencyRepository.getAllCurrencies().forEach { currency ->
+                    val currenciesThroughWeek = currenciesByDate.filter { currencyByDate ->
+                        currencyByDate.id == currency.id
+                    }
+
+                    val dailyCurrencyValues = mutableListOf<DailyCurrencyValue>()
+                    currenciesThroughWeek.mapTo(dailyCurrencyValues) { currencyThroughWeek ->
+                        DailyCurrencyValue(
+                            currencyThroughWeek.date,
+                            currencyThroughWeek.middleRate
+                        )
+                    }
+
+                    currencyRepository.updateCurrency(
+                        currency.copy(dailyValues = dailyCurrencyValues)
+                    )
+                }
+            }
+        })
     }
 
     private fun setDailyValues(currency: Currency): Currency {
