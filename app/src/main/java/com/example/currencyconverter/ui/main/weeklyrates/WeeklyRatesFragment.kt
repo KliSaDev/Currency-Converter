@@ -11,9 +11,7 @@ import com.example.currencyconverter.R
 import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.models.DailyCurrencyValue
 import com.example.currencyconverter.ui.main.selectcurrency.SelectCurrencyDialog
-import com.example.currencyconverter.util.checkIfFragmentAlreadyOpened
-import com.example.currencyconverter.util.getCompatColor
-import com.example.currencyconverter.util.getDay
+import com.example.currencyconverter.util.*
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -35,6 +33,11 @@ class WeeklyRatesFragment : BaseFragment() {
         viewModel.viewStateData().observe(viewLifecycleOwner, Observer { state ->
             setupChartData(state.dailyValues)
             setupSelectedFromCurrencyButton(state.selectedFromCurrency)
+            val middleRate = state.selectedFromCurrency.middleRate.toFloat()
+            setupYAxis(
+                minValue = middleRate - MIN_AND_MAX_VALUE_OFFSET_FOR_RATE,
+                maxValue = middleRate + MIN_AND_MAX_VALUE_OFFSET_FOR_RATE
+            )
         })
 
         viewModel.init()
@@ -44,7 +47,7 @@ class WeeklyRatesFragment : BaseFragment() {
 
     private fun setupChart() {
         weeklyRatesChart.apply {
-            setBorderWidth(3.0f)
+            setBorderWidth(BORDER_WIDTH)
             isHighlightPerTapEnabled = false
             setDrawBorders(true)
             description.isEnabled = false
@@ -61,7 +64,7 @@ class WeeklyRatesFragment : BaseFragment() {
         val xAxisLabels = mutableListOf<String>()
 
         dailyValues.forEachIndexed { index, dailyValue ->
-            val rateValue = dailyValue.middleRate.setScale(3, RoundingMode.DOWN).toFloat()
+            val rateValue = dailyValue.middleRate.setScale(NUMBER_OF_DIGITS_TO_ROUND, RoundingMode.DOWN).toFloat()
             entries.add(Entry(index.toFloat(), rateValue))
             xAxisLabels.add(dailyValue.date.getDay())
         }
@@ -74,8 +77,8 @@ class WeeklyRatesFragment : BaseFragment() {
 
         val dataSet = LineDataSet(entries, "")
         dataSet.apply {
-            lineWidth = 3f
-            circleRadius = 5f
+            lineWidth = LINE_WIDTH
+            circleRadius = CIRCLE_RADIUS
             circleHoleColor = requireContext().getCompatColor(R.color.colorAccent)
             circleColors = mutableListOf(requireContext().getCompatColor(R.color.colorAccent))
             color = requireContext().getCompatColor(R.color.colorAccent)
@@ -85,13 +88,17 @@ class WeeklyRatesFragment : BaseFragment() {
             notifyDataSetChanged()
             invalidate()
         }
+    }
 
+    private fun setupYAxis(minValue: Float, maxValue: Float) {
         val yAxisRight = weeklyRatesChart.axisRight
         yAxisRight.isEnabled = false
         val yAxisLeft = weeklyRatesChart.axisLeft
-        yAxisLeft.gridColor = requireContext().getCompatColor(R.color.colorPrimary_40Alpha)
-//        yAxisLeft.axisMinimum = 4f
-//        yAxisLeft.axisMaximum = 5f // TODO set of selected currency
+        yAxisLeft.apply {
+            gridColor = requireContext().getCompatColor(R.color.colorPrimary_40Alpha)
+            axisMinimum = minValue
+            axisMaximum = maxValue
+        }
     }
 
     private fun setupXAxis() {
@@ -99,9 +106,9 @@ class WeeklyRatesFragment : BaseFragment() {
         xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM
             setDrawGridLines(false)
-            granularity = 1f
-            spaceMax = 0.3f
-            spaceMin = 0.3f
+            granularity = X_AXIS_GRANULARITY
+            spaceMax = X_AXIS_OFFSET_FOR_VALUES
+            spaceMin = X_AXIS_OFFSET_FOR_VALUES
         }
     }
 
