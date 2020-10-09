@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
@@ -11,8 +12,12 @@ import com.example.currencyconverter.R
 import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.ui.main.selectcurrency.SelectCurrencyDialog
 import com.example.currencyconverter.util.checkIfFragmentAlreadyOpened
+import com.example.currencyconverter.util.hide
+import com.example.currencyconverter.util.show
 import com.example.currencyconverter.util.toast
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_convert_currency.*
+import kotlinx.android.synthetic.main.layout_no_internet_connection.*
 
 class ConvertCurrencyFragment : BaseFragment() {
 
@@ -34,6 +39,7 @@ class ConvertCurrencyFragment : BaseFragment() {
         viewModel.viewEventData().observe(viewLifecycleOwner, Observer { event ->
             when (event) {
                 is InvalidNumberInput -> context?.toast(getString(R.string.invalid_number_input))
+                is NoInternetConnection -> showNoInternetConnectionContainer()
             }
         })
 
@@ -80,5 +86,11 @@ class ConvertCurrencyFragment : BaseFragment() {
         buttonCalculate.setOnClickListener {
             viewModel.onCalculateClicked(fromCurrencyInput.text.toString())
         }
+    }
+
+    private fun showNoInternetConnectionContainer() {
+        convertCurrencyContainer.hide()
+        noInternetConnectionContainer.show()
+        requireActivity().bottomNavigationView.menu.forEach { it.isEnabled = false }
     }
 }

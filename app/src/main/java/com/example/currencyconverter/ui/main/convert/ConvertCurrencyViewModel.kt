@@ -78,6 +78,12 @@ class ConvertCurrencyViewModel @Inject constructor(
                     insertCurrenciesInDatabase(updatedCurrencies)
                     if (shouldGetCurrenciesByDate) getCurrenciesByDate()
                 }
+
+                override fun onError(e: Throwable) {
+                    if (getCurrenciesFromDatabase().isNullOrEmpty()) {
+                        emitEvent(NoInternetConnection)
+                    } else { setupState() }
+                }
             })
     }
 

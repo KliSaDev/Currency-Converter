@@ -10,3 +10,4 @@ data class ConvertCurrencyState(
 
 sealed class ConvertCurrencyEvent
 object InvalidNumberInput : ConvertCurrencyEvent()
+object NoInternetConnection : ConvertCurrencyEvent()
