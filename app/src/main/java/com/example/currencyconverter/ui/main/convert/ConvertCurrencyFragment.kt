@@ -45,6 +45,7 @@ class ConvertCurrencyFragment : BaseFragment() {
 
         viewModel.init()
         setupCalculateButton()
+        setupRetryButton()
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
@@ -55,6 +56,7 @@ class ConvertCurrencyFragment : BaseFragment() {
             fromCurrencyInput.text?.length?.let { setSelection(it) }
         }
         toCurrencyInput.setText(state.toValue)
+        showCurrencyConvertContainer()
     }
 
     private fun setupSelectedFromCurrencyButton(selectedFromCurrency: Currency) {
@@ -88,9 +90,25 @@ class ConvertCurrencyFragment : BaseFragment() {
         }
     }
 
+    private fun setupRetryButton() {
+        buttonRetry.setOnClickListener {
+            viewModel.init()
+        }
+    }
+
+    private fun showCurrencyConvertContainer() {
+        noInternetConnectionContainer.hide()
+        convertCurrencyContainer.show()
+        shouldEnableBottomNavigationView(true)
+    }
+
     private fun showNoInternetConnectionContainer() {
         convertCurrencyContainer.hide()
         noInternetConnectionContainer.show()
-        requireActivity().bottomNavigationView.menu.forEach { it.isEnabled = false }
+        shouldEnableBottomNavigationView(false)
+    }
+
+    private fun shouldEnableBottomNavigationView(shouldEnable: Boolean) {
+        requireActivity().bottomNavigationView.menu.forEach { it.isEnabled = shouldEnable }
     }
 }
