@@ -11,10 +11,10 @@
         style="@style/Currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="EUR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="EUR" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/weeklyRatesChart"

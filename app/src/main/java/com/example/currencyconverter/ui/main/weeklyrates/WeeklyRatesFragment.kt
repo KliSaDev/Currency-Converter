@@ -54,6 +54,7 @@ class WeeklyRatesFragment : BaseFragment() {
             legend.isEnabled = false
             setDrawGridBackground(false)
             setBorderColor(requireContext().getCompatColor(R.color.colorPrimary))
+            extraBottomOffset = 8f
             invalidate()
         }
     }
@@ -102,6 +103,7 @@ class WeeklyRatesFragment : BaseFragment() {
             gridColor = requireContext().getCompatColor(R.color.colorPrimary_40Alpha)
             axisMinimum = minValue
             axisMaximum = maxValue
+            textSize = Y_AXIS_LABEL_TEXT_SIZE
         }
     }
 
@@ -113,6 +115,7 @@ class WeeklyRatesFragment : BaseFragment() {
             granularity = X_AXIS_GRANULARITY
             spaceMax = X_AXIS_OFFSET_FOR_VALUES
             spaceMin = X_AXIS_OFFSET_FOR_VALUES
+            textSize = X_AXIS_LABEL_TEXT_SIZE
         }
     }
 
