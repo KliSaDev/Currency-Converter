@@ -62,9 +62,10 @@ class SelectCurrencyDialog : DaggerDialogFragment() {
     private fun addRadioButton(currencyName: String) {
         val rb = RadioButton(requireContext())
         val paddingVertical = resources.getDimensionPixelOffset(R.dimen.spacing_1_5x)
+        val paddingStart = resources.getDimensionPixelOffset(R.dimen.spacing_1x)
         rb.apply {
             text = currencyName
-            setPadding(rb.paddingStart, paddingVertical, rb.paddingEnd, paddingVertical)
+            setPadding(paddingStart, paddingVertical, rb.paddingEnd, paddingVertical)
         }
         radioGroup.addView(rb)
         if (currencyName == selectedCurrency?.currencyName) {
