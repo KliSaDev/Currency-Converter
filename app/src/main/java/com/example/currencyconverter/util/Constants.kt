@@ -16,9 +16,10 @@ const val FORMAT_CURRENCY_LIST_RATES = "%.3f"
 const val MIN_AND_MAX_VALUE_OFFSET_FOR_RATE = 0.3f
 const val BORDER_WIDTH = 3.0f
 
-const val NUMBER_OF_DIGITS_TO_ROUND = 3
 const val LINE_WIDTH = 2f
 const val CIRCLE_RADIUS = 4f
+const val FORMAT_RATE_VALUE_IN_CHART = "%.3f"
+const val VALUE_TEXT_SIZE = 10f
 
 const val X_AXIS_GRANULARITY = 1f
 const val X_AXIS_OFFSET_FOR_VALUES = 0.3f

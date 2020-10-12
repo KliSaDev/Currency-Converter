@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.fragment_weekly_rates.*
 import kotlinx.android.synthetic.main.fragment_weekly_rates.selectedFromCurrencyButton
-import java.math.RoundingMode
 
 class WeeklyRatesFragment : BaseFragment() {
 
@@ -64,8 +63,7 @@ class WeeklyRatesFragment : BaseFragment() {
         val xAxisLabels = mutableListOf<String>()
 
         dailyValues.forEachIndexed { index, dailyValue ->
-            val rateValue = dailyValue.middleRate.setScale(NUMBER_OF_DIGITS_TO_ROUND, RoundingMode.DOWN).toFloat()
-            entries.add(Entry(index.toFloat(), rateValue))
+            entries.add(Entry(index.toFloat(), dailyValue.middleRate.toFloat()))
             xAxisLabels.add(dailyValue.date.getDay())
         }
 
@@ -82,6 +80,12 @@ class WeeklyRatesFragment : BaseFragment() {
             circleHoleColor = requireContext().getCompatColor(R.color.colorAccent)
             circleColors = mutableListOf(requireContext().getCompatColor(R.color.colorAccent))
             color = requireContext().getCompatColor(R.color.colorAccent)
+            valueTextSize = VALUE_TEXT_SIZE
+            valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return String.format(FORMAT_RATE_VALUE_IN_CHART, value)
+                }
+            }
         }
         weeklyRatesChart.apply {
             data = LineData(dataSet)
