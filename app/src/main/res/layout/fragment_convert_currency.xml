@@ -117,7 +117,10 @@
             android:id="@+id/toCurrencyInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false" />
+            android:enabled="false"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            tools:text="8.654" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,7 +131,6 @@
         android:layout_height="wrap_content"
         android:text="@string/calculate"
         app:layout_constraintBottom_toBottomOf="parent" />
-    <!--    </androidx.constraintlayout.widget.Group>-->
 
     <include
         layout="@layout/layout_no_internet_connection"
