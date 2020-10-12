@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.models.Currency
+import com.example.currencyconverter.util.FORMAT_CURRENCY_LIST_RATES
 import com.example.currencyconverter.util.inflate
 import kotlinx.android.synthetic.main.list_item_currency.view.*
 
@@ -23,10 +24,9 @@ class CurrencyListAdapter : RecyclerView.Adapter<CurrencyListAdapter.CurrencyLis
         fun bindItem(currency: Currency, itemClickListener: ((Currency) -> Unit)? = null) {
             itemView.apply {
                 currencyName.text = currency.currencyName
-                // TODO: check how to convert this to string in a better way
-                buyingRate.text = currency.buyingRate.toString()
-                middleRate.text = currency.middleRate.toString()
-                sellingRate.text = currency.sellingRate.toString()
+                buyingRate.text = String.format(FORMAT_CURRENCY_LIST_RATES, currency.buyingRate)
+                middleRate.text = String.format(FORMAT_CURRENCY_LIST_RATES, currency.middleRate)
+                sellingRate.text = String.format(FORMAT_CURRENCY_LIST_RATES, currency.sellingRate)
             }
         }
     }
