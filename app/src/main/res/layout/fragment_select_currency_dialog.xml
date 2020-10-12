@@ -3,29 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/spacing_2x"
     android:paddingTop="@dimen/spacing_2x"
-    android:paddingEnd="@dimen/spacing_2x"
     tools:context="com.example.currencyconverter.ui.main.weeklyrates.WeeklyRatesFragment">
 
     <TextView
         android:id="@+id/titleLabel"
+        style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/spacing_2x"
+        android:paddingEnd="@dimen/spacing_2x"
         android:text="@string/select_currency_dialog_title"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/topDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/spacing_2x"
+        android:background="@color/dividerColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleLabel" />
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_marginTop="@dimen/spacing_2x"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@id/positiveButton"
+        android:paddingStart="@dimen/spacing_2x"
+        android:paddingEnd="@dimen/spacing_2x"
+        app:layout_constraintBottom_toTopOf="@id/bottomDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleLabel">
+        app:layout_constraintTop_toBottomOf="@id/topDivider">
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -37,6 +49,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent" />
     </ScrollView>
+
+    <View
+        android:id="@+id/bottomDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/dividerColor"
+        app:layout_constraintBottom_toTopOf="@id/positiveButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/negativeButton"
@@ -56,7 +77,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/spacing_2x"
+        android:paddingEnd="@dimen/spacing_2x"
         android:text="@string/select_currency_dialog_positive_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
