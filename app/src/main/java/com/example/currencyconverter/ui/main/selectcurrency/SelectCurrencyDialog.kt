@@ -1,5 +1,6 @@
 package com.example.currencyconverter.ui.main.selectcurrency
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,12 @@ import android.widget.RadioButton
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.repositories.CurrencyRepository
+import com.example.currencyconverter.util.PERCENTAGE_LAYOUT_HEIGHT
+import com.example.currencyconverter.util.PERCENTAGE_LAYOUT_WIDTH
 import dagger.android.support.DaggerDialogFragment
 import kotlinx.android.synthetic.main.fragment_select_currency_dialog.*
 import javax.inject.Inject
+
 
 class SelectCurrencyDialog : DaggerDialogFragment() {
 
@@ -50,6 +54,13 @@ class SelectCurrencyDialog : DaggerDialogFragment() {
         isCancelable = false
         setupRadioButtons()
         setupButtons()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val width = Resources.getSystem().displayMetrics.widthPixels * PERCENTAGE_LAYOUT_WIDTH
+        val height = Resources.getSystem().displayMetrics.heightPixels * PERCENTAGE_LAYOUT_HEIGHT
+        dialog?.window?.setLayout(width.toInt(), height.toInt())
     }
 
     private fun setupRadioButtons() {

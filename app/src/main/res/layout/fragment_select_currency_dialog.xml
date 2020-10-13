@@ -10,10 +10,11 @@
         android:id="@+id/titleLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/spacing_2x"
+        android:paddingStart="@dimen/spacing_2.5x"
         android:paddingEnd="@dimen/spacing_2x"
         android:text="@string/select_currency_dialog_title"
         android:textAppearance="@style/Text.Heading"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +30,7 @@
 
     <ScrollView
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:fillViewport="true"
         android:paddingStart="@dimen/spacing_2x"
         android:paddingEnd="@dimen/spacing_2x"
