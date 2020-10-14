@@ -34,7 +34,7 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">0.2</item>
+        <item name="android:letterSpacing">0.04</item>
         <item name="android:background">@drawable/bg_text_button_dialog</item>
     </style>
 
