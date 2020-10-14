@@ -9,9 +9,11 @@
         android:id="@+id/noInternetConnectionLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_error"
         android:gravity="center"
+        android:padding="@dimen/spacing_2x"
         android:text="@string/no_internet_connection_title"
-        android:textSize="20sp"
+        android:textAppearance="@style/Text.Subheading.White"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,7 +21,7 @@
     <ImageView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/spacing_5x"
+        android:layout_margin="@dimen/spacing_6x"
         android:src="@drawable/ic_wifi_off"
         app:layout_constraintBottom_toTopOf="@id/buttonRetry"
         app:layout_constraintEnd_toEndOf="parent"
