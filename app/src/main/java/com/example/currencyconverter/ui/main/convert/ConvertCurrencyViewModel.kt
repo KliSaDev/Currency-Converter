@@ -81,8 +81,10 @@ class ConvertCurrencyViewModel @Inject constructor(
 
                 override fun onError(e: Throwable) {
                     if (getCurrenciesFromDatabase().isNullOrEmpty()) {
-                        emitEvent(NoInternetConnection)
-                    } else { setupState() }
+                        handleException(e, NoInternetConnection)
+                    } else {
+                        setupState()
+                    }
                 }
             })
     }
