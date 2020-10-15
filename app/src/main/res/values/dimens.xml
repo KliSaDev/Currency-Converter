@@ -12,4 +12,6 @@
     <dimen name="spacing_4x">32dp</dimen>
     <dimen name="spacing_5x">40dp</dimen>
     <dimen name="spacing_6x">48dp</dimen>
+    <dimen name="spacing_6_5x">52dp</dimen>
+    <dimen name="spacing_7x">56dp</dimen>
 </resources>
