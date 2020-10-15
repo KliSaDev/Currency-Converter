@@ -7,24 +7,20 @@ import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.currencyconverter.BaseFragment
-import com.example.currencyconverter.BaseViewModel
-import com.example.currencyconverter.ProgressState
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.ui.main.selectcurrency.SelectCurrencyDialog
-import com.example.currencyconverter.util.checkIfFragmentAlreadyOpened
-import com.example.currencyconverter.util.hide
-import com.example.currencyconverter.util.show
-import com.example.currencyconverter.util.toast
+import com.example.currencyconverter.util.*
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_convert_currency.*
-import kotlinx.android.synthetic.main.layout_no_internet_connection.*
+
 
 class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurrencyEvent>() {
 
-     override val viewModel by viewModels<ConvertCurrencyViewModel> { factory }
+    override val viewModel by viewModels<ConvertCurrencyViewModel> { factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_convert_currency, container, false)
@@ -48,7 +44,6 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
         viewModel.init()
         setupCalculateButton()
-        setupRetryButton()
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
@@ -93,21 +88,26 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         }
     }
 
-    private fun setupRetryButton() {
-        buttonRetry.setOnClickListener {
-            viewModel.init()
-        }
-    }
-
     private fun showCurrencyConvertContainer() {
-        noInternetConnectionContainer.hide()
+        wifiOffImage.hide()
         convertCurrencyContainer.show()
         shouldEnableBottomNavigationView(true)
     }
 
     private fun showNoInternetConnectionContainer() {
         convertCurrencyContainer.hide()
-        noInternetConnectionContainer.show()
+        wifiOffImage.show()
+
+        Snackbar.make(
+            convertCurrencyContainer,
+            getString(R.string.no_internet_connection_title),
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(getString(R.string.retry_button)) { viewModel.init() }
+            .setActionTextColor(requireContext().getCompatColor(R.color.colorSecondary))
+            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
+            .show()
+
         shouldEnableBottomNavigationView(false)
     }
 
