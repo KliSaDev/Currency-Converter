@@ -22,9 +22,9 @@ abstract class BaseFragment<State : Any, Event : Any> : DaggerFragment() {
 
         viewModel.commonStateData().observe(viewLifecycleOwner, Observer { progressState ->
             when (progressState) {
-                ProgressState.IDLE -> requireActivity().progressBar.hide()
-                ProgressState.IS_SHOWING -> requireActivity().progressBar.show()
-                else -> progressBar.hide()
+                ProgressState.IDLE -> requireActivity().progressBarContainer.hide()
+                ProgressState.IS_SHOWING -> requireActivity().progressBarContainer.show()
+                else -> progressBarContainer.hide()
             }
         })
     }
