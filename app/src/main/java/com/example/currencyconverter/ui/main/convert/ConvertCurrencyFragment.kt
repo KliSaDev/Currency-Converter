@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.currencyconverter.BaseFragment
+import com.example.currencyconverter.BaseViewModel
+import com.example.currencyconverter.ProgressState
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.ui.main.selectcurrency.SelectCurrencyDialog
@@ -19,9 +22,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_convert_currency.*
 import kotlinx.android.synthetic.main.layout_no_internet_connection.*
 
-class ConvertCurrencyFragment : BaseFragment() {
+class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurrencyEvent>() {
 
-    private val viewModel by viewModels<ConvertCurrencyViewModel> { factory }
+     override val viewModel by viewModels<ConvertCurrencyViewModel> { factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_convert_currency, container, false)

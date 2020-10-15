@@ -13,9 +13,11 @@ open class BaseViewModel<State : Any, Event : Any> : ViewModel() {
 
     private val stateLiveData: MutableLiveData<State> = MutableLiveData()
     private val eventLiveData: LiveEvent<Event> = LiveEvent()
+    private val commonStateLiveData: MutableLiveData<ProgressState> = MutableLiveData()
 
     fun viewStateData(): LiveData<State> = stateLiveData
     fun viewEventData(): LiveData<Event> = eventLiveData
+    fun commonStateData(): LiveData<ProgressState> = commonStateLiveData
 
     protected var viewState: State? = null
         get() = stateLiveData.value ?: field
@@ -34,4 +36,17 @@ open class BaseViewModel<State : Any, Event : Any> : ViewModel() {
                 emitEvent(event)
         }
     }
+
+    protected fun showProgress() {
+        commonStateLiveData.value = ProgressState.IS_SHOWING
+    }
+
+    protected fun hideProgress() {
+        commonStateLiveData.value = ProgressState.IDLE
+    }
+}
+
+enum class ProgressState {
+    IS_SHOWING,
+    IDLE
 }

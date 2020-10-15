@@ -16,12 +16,12 @@ import com.example.currencyconverter.util.show
 import kotlinx.android.synthetic.main.fragment_currency_list.*
 import javax.inject.Inject
 
-class CurrencyListFragment : BaseFragment() {
+class CurrencyListFragment : BaseFragment<CurrencyListState, CurrencyListEvent>() {
 
     @Inject
     lateinit var currencyAdapter: CurrencyListAdapter
 
-    private val viewModel by viewModels<CurrencyListViewModel> { factory }
+    override val viewModel by viewModels<CurrencyListViewModel> { factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_currency_list, container, false)
@@ -46,7 +46,7 @@ class CurrencyListFragment : BaseFragment() {
 
     private fun setupAdapter(currencies: List<Currency>) {
         currencyAdapter.items = currencies
-        currenciesListRecyclerView.apply {
+        currenciesListRecyclerView.run {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = currencyAdapter

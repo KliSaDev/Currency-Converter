@@ -34,6 +34,7 @@ class ConvertCurrencyViewModel @Inject constructor(
 
     fun init() {
         Timber.d("${ConvertCurrencyViewModel::class.simpleName} initialized")
+        showProgress()
 
         val isDatabaseEmpty = getCurrenciesFromDatabase().isNullOrEmpty()
         if (isDatabaseEmpty) {
@@ -42,6 +43,7 @@ class ConvertCurrencyViewModel @Inject constructor(
             getCurrenciesFromAPI()
         } else {
             setupState()
+            hideProgress()
         }
     }
 
@@ -77,6 +79,7 @@ class ConvertCurrencyViewModel @Inject constructor(
                 override fun onSuccess(updatedCurrencies: List<Currency>) {
                     insertCurrenciesInDatabase(updatedCurrencies)
                     if (shouldGetCurrenciesByDate) getCurrenciesByDate()
+                    hideProgress()
                 }
 
                 override fun onError(e: Throwable) {
@@ -85,6 +88,7 @@ class ConvertCurrencyViewModel @Inject constructor(
                     } else {
                         setupState()
                     }
+                    hideProgress()
                 }
             })
     }
@@ -124,6 +128,7 @@ class ConvertCurrencyViewModel @Inject constructor(
                         currency.copy(dailyValues = dailyCurrencyValues)
                     )
                 }
+                hideProgress()
             }
         })
     }

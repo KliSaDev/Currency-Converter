@@ -18,9 +18,9 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.fragment_weekly_rates.*
 import kotlinx.android.synthetic.main.fragment_weekly_rates.selectedFromCurrencyButton
 
-class WeeklyRatesFragment : BaseFragment() {
+class WeeklyRatesFragment : BaseFragment<WeeklyRatesState, WeeklyRatesEvent>() {
 
-    private val viewModel by viewModels<WeeklyRatesViewModel> { factory }
+    override val viewModel by viewModels<WeeklyRatesViewModel> { factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_weekly_rates, container, false)
