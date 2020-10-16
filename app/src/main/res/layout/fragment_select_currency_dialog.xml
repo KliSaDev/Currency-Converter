@@ -66,6 +66,7 @@
         style="@style/TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_2x"
         android:layout_marginBottom="@dimen/spacing_1x"
         android:background="@drawable/bg_text_button_dialog"
         android:gravity="center"
