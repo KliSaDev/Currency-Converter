@@ -100,7 +100,7 @@ class WeeklyRatesFragment : BaseFragment<WeeklyRatesState, WeeklyRatesEvent>() {
         yAxisRight.isEnabled = false
         val yAxisLeft = weeklyRatesChart.axisLeft
         yAxisLeft.apply {
-            gridColor = requireContext().getCompatColor(R.color.colorPrimary_40Alpha)
+            gridColor = requireContext().getCompatColor(R.color.colorSecondary)
             axisMinimum = minValue
             axisMaximum = maxValue
             textSize = Y_AXIS_LABEL_TEXT_SIZE
