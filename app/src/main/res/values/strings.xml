@@ -14,6 +14,7 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="hrk">HRK</string>
+    <string name="currency_disclaimer">For now, we only support converting with HRK as a base currency due to open API restrictions we are using.</string>
     <string name="calculate">Calculate</string>
 
     <string name="invalid_number_input">Invalid number input. Please, try again.</string>
