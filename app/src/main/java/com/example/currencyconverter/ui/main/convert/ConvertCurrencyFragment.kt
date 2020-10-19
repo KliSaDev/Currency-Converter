@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -23,6 +24,24 @@ import kotlinx.android.synthetic.main.fragment_convert_currency.*
 class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurrencyEvent>() {
 
     override val viewModel by viewModels<ConvertCurrencyViewModel> { factory }
+
+    private val onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        val activityContainer = requireActivity().container
+        val r = Rect()
+        // r will be populated with the visible area.
+        activityContainer.getWindowVisibleDisplayFrame(r)
+
+        val heightDiff = activityContainer.rootView.height - r.height()
+        // If heightDiff is more than 25% of the screen, it is probably keyboard.
+        if (heightDiff > PERCENTAGE_OF_NON_VISIBLE_SCREEN * activityContainer.rootView.height) {
+            disclaimerContainer.hide()
+            // Once disclaimer is hidden, we want to animate rootContainer so disclaimer
+            // can show nicely with no flickering.
+            rootContainer.layoutTransition = LayoutTransition()
+        } else {
+            disclaimerContainer.show()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_convert_currency, container, false)
@@ -49,26 +68,16 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         setupOnGlobalLayoutListenerForKeyboardVisibility()
     }
 
+    override fun onPause() {
+        super.onPause()
+        requireActivity().container.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
+    }
+
     private fun setupOnGlobalLayoutListenerForKeyboardVisibility() {
         // Due to lack of integrated methods with which we could get basic information about
         // keyboard, this is somewhat hacky way of knowing whether the keyboard
         // is visible or not.
-        rootContainer.viewTreeObserver.addOnGlobalLayoutListener {
-            val r = Rect()
-            // r will be populated with the visible area.
-            rootContainer.getWindowVisibleDisplayFrame(r)
-
-            val heightDiff = rootContainer.rootView.height - r.height()
-            // If heightDiff is more than 25% of the screen, it is probably keyboard.
-            if (heightDiff > PERCENTAGE_OF_NON_VISIBLE_SCREEN * rootContainer.rootView.height) {
-                disclaimerContainer.hide()
-                // Once disclaimer is hidden, we want to animate rootContainer so disclaimer
-                // can show nicely with no flickering.
-                rootContainer.layoutTransition = LayoutTransition()
-            } else {
-                disclaimerContainer.show()
-            }
-        }
+        requireActivity().container.viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
