@@ -1,5 +1,7 @@
 package com.example.currencyconverter.ui.main.convert
 
+import android.animation.LayoutTransition
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +46,29 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
         viewModel.init()
         setupCalculateButton()
+        setupOnGlobalLayoutListenerForKeyboardVisibility()
+    }
+
+    private fun setupOnGlobalLayoutListenerForKeyboardVisibility() {
+        // Due to lack of integrated methods with which we could get basic information about
+        // keyboard, this is somewhat hacky way of knowing whether the keyboard
+        // is visible or not.
+        rootContainer.viewTreeObserver.addOnGlobalLayoutListener {
+            val r = Rect()
+            // r will be populated with the visible area.
+            rootContainer.getWindowVisibleDisplayFrame(r)
+
+            val heightDiff = rootContainer.rootView.height - r.height()
+            // If heightDiff is more than 25% of the screen, it is probably keyboard.
+            if (heightDiff > PERCENTAGE_OF_NON_VISIBLE_SCREEN * rootContainer.rootView.height) {
+                disclaimerContainer.hide()
+                // Once disclaimer is hidden, we want to animate rootContainer so disclaimer
+                // can show nicely with no flickering.
+                rootContainer.layoutTransition = LayoutTransition()
+            } else {
+                disclaimerContainer.show()
+            }
+        }
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
