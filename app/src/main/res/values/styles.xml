@@ -7,6 +7,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="Currency">
         <item name="android:paddingStart">@dimen/spacing_2x</item>
         <item name="android:paddingEnd">@dimen/spacing_2x</item>
