@@ -3,6 +3,9 @@ package com.example.currencyconverter.util
 // DATABASE
 const val CURRENCY_DATABASE_NAME = "Currency Database"
 
+// SPLASH SCREEN
+const val LOGO_IMAGE_ANIMATION_DURATION = 1500
+
 // CONVERT CURRENCY SCREEN
 const val DEFAULT_FROM_CURRENCY_VALUE = 1
 const val DEFAULT_TO_CURRENCY_VALUE = 1

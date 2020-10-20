@@ -118,8 +118,11 @@ dependencies {
     // ThreeTenABP
     implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.threeTenABPVersion"
 
-    //Logging
+    // Logging
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
+
+    // Ui
+    implementation "com.eftimoff:android-pathview:$rootProject.pathViewVersion"
 
     // Testing
     testImplementation 'junit:junit:4.12'

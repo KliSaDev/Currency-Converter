@@ -5,24 +5,25 @@
     android:layout_height="match_parent"
     android:background="@color/colorSecondary">
 
-    <ImageView
+    <com.eftimoff.androipathview.PathView
         android:id="@+id/logoImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_money_bag"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         app:layout_constraintBottom_toTopOf="@id/titleLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:pathColor="@color/white"
+        app:pathWidth="1dp"
+        app:svg="@raw/ic_man_with_money" />
 
     <TextView
         android:id="@+id/titleLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Currency Converter"
-        android:textColor="@color/white"
-        android:textSize="20sp"
+        android:text="@string/app_name"
+        android:textAppearance="@style/Text.Heading.White"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
