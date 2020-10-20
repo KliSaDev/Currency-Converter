@@ -49,6 +49,10 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
         viewModel.init()
         setupCalculateButton()
+    }
+
+    override fun onStart() {
+        super.onStart()
         setupOnGlobalLayoutListenerForKeyboardVisibility()
     }
 
