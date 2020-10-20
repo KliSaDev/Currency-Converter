@@ -14,7 +14,6 @@ class SplashActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        titleLabel.setOnClickListener { navigateToMain() }
         setupUi()
     }
 
