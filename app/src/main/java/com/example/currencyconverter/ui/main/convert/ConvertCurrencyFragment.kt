@@ -25,23 +25,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
     override val viewModel by viewModels<ConvertCurrencyViewModel> { factory }
 
-    private val onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-        val activityContainer = requireActivity().container
-        val r = Rect()
-        // r will be populated with the visible area.
-        activityContainer.getWindowVisibleDisplayFrame(r)
-
-        val heightDiff = activityContainer.rootView.height - r.height()
-        // If heightDiff is more than 25% of the screen, it is probably keyboard.
-        if (heightDiff > PERCENTAGE_OF_NON_VISIBLE_SCREEN * activityContainer.rootView.height) {
-            disclaimerContainer.hide()
-            // Once disclaimer is hidden, we want to animate rootContainer so disclaimer
-            // can show nicely with no flickering.
-            rootContainer.layoutTransition = LayoutTransition()
-        } else {
-            disclaimerContainer.show()
-        }
-    }
+    private lateinit var onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_convert_currency, container, false)
@@ -77,6 +61,23 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         // Due to lack of integrated methods with which we could get basic information about
         // keyboard, this is somewhat hacky way of knowing whether the keyboard
         // is visible or not.
+        onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+            val activityContainer = requireActivity().container
+            val r = Rect()
+            // r will be populated with the visible area.
+            activityContainer.getWindowVisibleDisplayFrame(r)
+
+            val heightDiff = activityContainer.rootView.height - r.height()
+            // If heightDiff is more than 25% of the screen, it is probably keyboard.
+            if (heightDiff > PERCENTAGE_OF_NON_VISIBLE_SCREEN * activityContainer.rootView.height) {
+                disclaimerContainer.hide()
+                // Once disclaimer is hidden, we want to animate rootContainer so disclaimer
+                // can show nicely with no flickering.
+                rootContainer.layoutTransition = LayoutTransition()
+            } else {
+                disclaimerContainer.show()
+            }
+        }
         requireActivity().container.viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
