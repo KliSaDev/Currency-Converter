@@ -58,6 +58,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
     override fun onPause() {
         super.onPause()
+        requireActivity().currentFocus?.hideKeyboard()
         requireActivity().container.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
