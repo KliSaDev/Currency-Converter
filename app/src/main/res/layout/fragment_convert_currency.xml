@@ -159,11 +159,11 @@
 
         <TextView
             android:id="@+id/disclaimerLabel"
+            android:textAppearance="@style/Text.Subheading.Small.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_2x"
-            android:text="@string/currency_disclaimer"
-            android:textColor="@color/colorSecondary" />
+            android:text="@string/currency_disclaimer" />
     </LinearLayout>
 
     <TextView

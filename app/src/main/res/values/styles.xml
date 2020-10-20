@@ -65,4 +65,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="Text.Subheading.Secondary" parent="Text.Subheading">
+        <item name="android:textColor">@color/colorSecondary</item>
+    </style>
+
+    <style name="Text.Subheading.Small" parent="Text.Subheading">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Subheading.Small.Secondary" parent="Text.Subheading.Small">
+        <item name="android:textColor">@color/colorSecondary</item>
+    </style>
+
 </resources>
