@@ -142,7 +142,14 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     private fun setupNoInternetConnectionLayout() {
         removeOnGlobalLayoutListenerForKeyboardVisibility()
         convertCurrencyContainer.hide()
-        wifiOffImage.show()
+        wifiOffImage.run {
+            show()
+            pathAnimator
+                .duration(ANIMATION_DURATION)
+                .start()
+            pathColor = requireContext().getCompatColor(R.color.colorSecondary)
+            setFillAfter(true)
+        }
 
         Snackbar.make(
             convertCurrencyContainer,

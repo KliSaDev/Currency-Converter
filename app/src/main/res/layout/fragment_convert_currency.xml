@@ -125,17 +125,17 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
+    <com.eftimoff.androipathview.PathView
         android:id="@+id/wifiOffImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/spacing_6x"
-        android:padding="@dimen/spacing_6x"
-        android:src="@drawable/ic_wifi_off"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/buttonCalculate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pathWidth="1dp"
+        app:svg="@raw/ic_wifi_off"
         tools:visibility="visible" />
 
     <LinearLayout
@@ -159,11 +159,11 @@
 
         <TextView
             android:id="@+id/disclaimerLabel"
-            android:textAppearance="@style/Text.Subheading.Small.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_2x"
-            android:text="@string/currency_disclaimer" />
+            android:text="@string/currency_disclaimer"
+            android:textAppearance="@style/Text.Subheading.Small.Secondary" />
     </LinearLayout>
 
     <TextView
