@@ -43,7 +43,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         viewModel.viewEventData().observe(viewLifecycleOwner, Observer { event ->
             when (event) {
                 is InvalidNumberInput -> context?.toast(getString(R.string.invalid_number_input))
-                is NoInternetConnection -> showNoInternetConnectionContainer()
+                is NoInternetConnection -> setupNoInternetConnectionLayout()
             }
         })
 
@@ -59,7 +59,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     override fun onPause() {
         super.onPause()
         requireActivity().currentFocus?.hideKeyboard()
-        requireActivity().container.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
+        removeOnGlobalLayoutListenerForKeyboardVisibility()
     }
 
     private fun setupOnGlobalLayoutListenerForKeyboardVisibility() {
@@ -86,6 +86,10 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         requireActivity().container.viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
+    private fun removeOnGlobalLayoutListenerForKeyboardVisibility() {
+        requireActivity().container.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
+    }
+
     private fun setupLayout(state: ConvertCurrencyState) {
         setupSelectedFromCurrencyButton(state.selectedFromCurrency)
         setupSelectedToCurrencyButton()
@@ -95,6 +99,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         }
         toCurrencyInput.setText(state.toValue)
         showCurrencyConvertContainer()
+        setupOnGlobalLayoutListenerForKeyboardVisibility()
     }
 
     private fun setupSelectedFromCurrencyButton(selectedFromCurrency: Currency) {
@@ -134,7 +139,8 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         shouldEnableBottomNavigationView(true)
     }
 
-    private fun showNoInternetConnectionContainer() {
+    private fun setupNoInternetConnectionLayout() {
+        removeOnGlobalLayoutListenerForKeyboardVisibility()
         convertCurrencyContainer.hide()
         wifiOffImage.show()
 
