@@ -47,22 +47,18 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
             }
         })
 
+        initializeOnGlobalLayoutListener()
         viewModel.init()
         setupCalculateButton()
     }
 
-    override fun onStart() {
-        super.onStart()
-        setupOnGlobalLayoutListenerForKeyboardVisibility()
-    }
-
     override fun onPause() {
         super.onPause()
-        requireActivity().currentFocus?.hideKeyboard()
         removeOnGlobalLayoutListenerForKeyboardVisibility()
+        requireActivity().currentFocus?.hideKeyboard()
     }
 
-    private fun setupOnGlobalLayoutListenerForKeyboardVisibility() {
+    private fun initializeOnGlobalLayoutListener() {
         // Due to lack of integrated methods with which we could get basic information about
         // keyboard, this is somewhat hacky way of knowing whether the keyboard
         // is visible or not.
@@ -83,6 +79,9 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
                 disclaimerContainer.show()
             }
         }
+    }
+
+    private fun addOnGlobalLayoutListenerForKeyboardVisibility() {
         requireActivity().container.viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
@@ -91,6 +90,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
+        addOnGlobalLayoutListenerForKeyboardVisibility()
         setupSelectedFromCurrencyButton(state.selectedFromCurrency)
         setupSelectedToCurrencyButton()
         fromCurrencyInput.apply {
@@ -99,7 +99,6 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         }
         toCurrencyInput.setText(state.toValue)
         showCurrencyConvertContainer()
-        setupOnGlobalLayoutListenerForKeyboardVisibility()
     }
 
     private fun setupSelectedFromCurrencyButton(selectedFromCurrency: Currency) {
