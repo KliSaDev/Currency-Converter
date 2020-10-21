@@ -2,6 +2,7 @@ package com.example.currencyconverter.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import com.example.currencyconverter.R
 import com.example.currencyconverter.ui.main.MainActivity
 import com.example.currencyconverter.util.ANIMATION_DURATION
@@ -22,6 +23,10 @@ class SplashActivity : DaggerAppCompatActivity() {
             .duration(ANIMATION_DURATION)
             .listenerEnd { navigateToMain() }
             .start()
+
+        titleLabel.animation = AnimationUtils.loadAnimation(this, R.anim.slide_from_bottom).apply {
+            duration = ANIMATION_DURATION.toLong()
+        }
     }
 
     private fun navigateToMain() {
