@@ -11,6 +11,7 @@ import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.repositories.CurrencyRepository
 import com.example.currencyconverter.util.PERCENTAGE_LAYOUT_HEIGHT
 import com.example.currencyconverter.util.PERCENTAGE_LAYOUT_WIDTH
+import com.example.currencyconverter.util.RADIO_BUTTON_TEXT_SIZE
 import dagger.android.support.DaggerDialogFragment
 import kotlinx.android.synthetic.main.fragment_select_currency_dialog.*
 import javax.inject.Inject
@@ -73,9 +74,10 @@ class SelectCurrencyDialog : DaggerDialogFragment() {
     private fun addRadioButton(currencyName: String) {
         val rb = RadioButton(requireContext())
         val paddingVertical = resources.getDimensionPixelOffset(R.dimen.spacing_1_5x)
-        val paddingStart = resources.getDimensionPixelOffset(R.dimen.spacing_1x)
+        val paddingStart = resources.getDimensionPixelOffset(R.dimen.spacing_1_5x)
         rb.apply {
             text = currencyName
+            textSize = RADIO_BUTTON_TEXT_SIZE
             setPadding(paddingStart, paddingVertical, rb.paddingEnd, paddingVertical)
         }
         radioGroup.addView(rb)
