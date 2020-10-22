@@ -157,7 +157,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         wifiOffImage.run {
             show()
             pathAnimator.duration(ANIMATION_DURATION).start()
-            pathColor = requireContext().getCompatColor(R.color.colorSecondary)
+            pathColor = requireContext().getCompatColor(R.color.colorPrimary)
             setFillAfter(true)
         }
 

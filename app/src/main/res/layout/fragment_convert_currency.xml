@@ -134,7 +134,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:pathWidth="1dp"
+        app:pathWidth="2dp"
         app:svg="@raw/ic_wifi_off"
         tools:visibility="visible" />
 
