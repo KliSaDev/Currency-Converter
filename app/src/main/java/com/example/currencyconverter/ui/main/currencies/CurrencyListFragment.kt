@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.TranslateAnimation
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -45,11 +47,18 @@ class CurrencyListFragment : BaseFragment<CurrencyListState, CurrencyListEvent>(
     }
 
     private fun setupAdapter(currencies: List<Currency>) {
+        // TODO Tweak this.
+        val translateAnimation = TranslateAnimation(0f, 0f, 50f, 0f).apply {
+            duration = 500L
+            interpolator = DecelerateInterpolator()
+        }
+
         currencyAdapter.items = currencies
         currenciesListRecyclerView.run {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = currencyAdapter
+            animation = translateAnimation
         }
     }
 }
