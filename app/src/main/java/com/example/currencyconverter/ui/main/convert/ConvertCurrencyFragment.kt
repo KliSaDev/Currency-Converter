@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
 import androidx.core.view.forEach
@@ -132,6 +130,9 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     private fun showSelectCurrencyDialog(selectedFromCurrency: Currency) {
         SelectCurrencyDialog.newInstance(selectedFromCurrency).apply {
             onConfirmListener = { newSelectedCurrencyName ->
+                // We need to remove the listener here because showing DialogFragment does not
+                // trigger onPause() on Fragment.
+                removeOnGlobalLayoutListenerForKeyboardVisibility()
                 viewModel.onNewCurrencySelected(newSelectedCurrencyName)
             }
         }.show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
@@ -155,9 +156,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         convertCurrencyContainer.hide()
         wifiOffImage.run {
             show()
-            pathAnimator
-                .duration(ANIMATION_DURATION)
-                .start()
+            pathAnimator.duration(ANIMATION_DURATION).start()
             pathColor = requireContext().getCompatColor(R.color.colorSecondary)
             setFillAfter(true)
         }
