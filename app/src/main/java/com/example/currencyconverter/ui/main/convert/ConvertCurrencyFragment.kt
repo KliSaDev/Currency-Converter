@@ -100,6 +100,9 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
+        // Before setting up the layout previous listener needs to be removed so we do
+        // not add the listener twice, which can result in NullPointerException.
+        removeOnGlobalLayoutListenerForKeyboardVisibility()
         addOnGlobalLayoutListenerForKeyboardVisibility()
         setupSelectedFromCurrencyButton(state.selectedFromCurrency)
         setupSelectedToCurrencyButton()
@@ -130,9 +133,6 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     private fun showSelectCurrencyDialog(selectedFromCurrency: Currency) {
         SelectCurrencyDialog.newInstance(selectedFromCurrency).apply {
             onConfirmListener = { newSelectedCurrencyName ->
-                // We need to remove the listener here because showing DialogFragment does not
-                // trigger onPause() on Fragment.
-                removeOnGlobalLayoutListenerForKeyboardVisibility()
                 viewModel.onNewCurrencySelected(newSelectedCurrencyName)
             }
         }.show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
