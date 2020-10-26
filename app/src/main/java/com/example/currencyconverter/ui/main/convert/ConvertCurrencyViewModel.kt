@@ -10,16 +10,14 @@ import com.example.currencyconverter.di.annotations.ViewModelKey
 import com.example.currencyconverter.network.interactors.GetAllCurrenciesInteractor
 import com.example.currencyconverter.network.interactors.GetCurrenciesByDateInteractor
 import com.example.currencyconverter.network.observers.ErrorHandlingSingleObserver
-import com.example.currencyconverter.util.DAYS_TO_SUBTRACT_FOR_WEEKLY_RATES
-import com.example.currencyconverter.util.DEFAULT_FROM_CURRENCY_VALUE
-import com.example.currencyconverter.util.DEFAULT_TO_CURRENCY_VALUE
-import com.example.currencyconverter.util.MAX_DAILY_VALUES
+import com.example.currencyconverter.util.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import org.threeten.bp.LocalDate
 import timber.log.Timber
 import java.math.BigDecimal
+import java.math.RoundingMode
 import javax.inject.Inject
 
 class ConvertCurrencyViewModel @Inject constructor(
@@ -28,9 +26,10 @@ class ConvertCurrencyViewModel @Inject constructor(
     private val currencyRepository: CurrencyRepository
 ) : BaseViewModel<ConvertCurrencyState, ConvertCurrencyEvent>() {
 
-    private lateinit var selectedFromCurrency: Currency
+    private lateinit var selectedForeignCurrency: Currency
     private var fromValue: String = DEFAULT_FROM_CURRENCY_VALUE.toString()
     private var toValue: String = DEFAULT_TO_CURRENCY_VALUE.toString()
+    private var isHrkFromCurrency = false
 
     fun init() {
         Timber.d("${ConvertCurrencyViewModel::class.simpleName} initialized")
@@ -52,12 +51,28 @@ class ConvertCurrencyViewModel @Inject constructor(
             emitEvent(InvalidNumberInput)
         } else {
             this.fromValue = fromValue
-            this.toValue = convertValue(fromValue)
+            this.toValue = if (isHrkFromCurrency) convertSwitchedValue(fromValue) else convertValue(fromValue)
+            val selectedFromCurrencyLabel = if (isHrkFromCurrency) BASE_CURRENCY_LABEL_HRK else selectedForeignCurrency.currencyName
+            val selectedToCurrencyLabel = if (isHrkFromCurrency) selectedForeignCurrency.currencyName else BASE_CURRENCY_LABEL_HRK
             viewState = viewState?.copy(
+                selectedForeignCurrency = selectedForeignCurrency,
+                selectedFromCurrencyLabel = selectedFromCurrencyLabel,
+                selectedToCurrencyLabel = selectedToCurrencyLabel,
                 fromValue = fromValue,
                 toValue = toValue
             )
         }
+    }
+
+    private fun convertValue(fromValue: String): String {
+        return BigDecimal(fromValue).multiply(selectedForeignCurrency.middleRate).toString()
+    }
+
+    private fun convertSwitchedValue(fromValue: String): String {
+        return BigDecimal(fromValue).divide(
+            selectedForeignCurrency.middleRate,
+            SCALE_FOR_DIVIDED_VALUE,
+            RoundingMode.HALF_UP).toString()
     }
 
     fun onNewCurrencySelected(newCurrencyName: String) {
@@ -65,11 +80,11 @@ class ConvertCurrencyViewModel @Inject constructor(
             it.currencyName == newCurrencyName
         }
         if (newCurrency != null) {
-            selectedFromCurrency = newCurrency
+            selectedForeignCurrency = newCurrency
         }
 
         viewState = viewState?.copy(
-            selectedFromCurrency = selectedFromCurrency,
+            selectedFromCurrencyLabel = selectedForeignCurrency.currencyName,
             toValue = convertValue(fromValue)
         )
     }
@@ -152,10 +167,12 @@ class ConvertCurrencyViewModel @Inject constructor(
     }
 
     private fun setupState() {
-        selectedFromCurrency = currencyRepository.getTopmostCurrency()
-        this.toValue = selectedFromCurrency.middleRate.toString()
+        selectedForeignCurrency = currencyRepository.getTopmostCurrency()
+        this.toValue = selectedForeignCurrency.middleRate.toString()
         viewState = ConvertCurrencyState(
-            selectedFromCurrency = selectedFromCurrency,
+            selectedForeignCurrency = selectedForeignCurrency,
+            selectedFromCurrencyLabel = selectedForeignCurrency.currencyName,
+            selectedToCurrencyLabel = "HRK",
             fromValue = fromValue,
             toValue = toValue
         )
@@ -170,8 +187,8 @@ class ConvertCurrencyViewModel @Inject constructor(
         return LocalDate.now() != lastUpdatedDate
     }
 
-    private fun convertValue(fromValue: String): String {
-        return BigDecimal(fromValue).multiply(selectedFromCurrency.middleRate).toString()
+    fun onSwitchCurrencies() {
+        isHrkFromCurrency = !isHrkFromCurrency
     }
 }
 

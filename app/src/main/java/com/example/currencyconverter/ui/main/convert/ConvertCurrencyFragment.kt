@@ -51,6 +51,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
         initializeOnGlobalLayoutListener()
         viewModel.init()
+        setupSwitchCurrenciesButton()
         setupCalculateButton()
     }
 
@@ -104,8 +105,8 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         // not add the listener twice, which can result in NullPointerException.
         removeOnGlobalLayoutListenerForKeyboardVisibility()
         addOnGlobalLayoutListenerForKeyboardVisibility()
-        setupSelectedFromCurrencyButton(state.selectedFromCurrency)
-        setupSelectedToCurrencyButton()
+        setupSelectedFromCurrencyButton(state.selectedForeignCurrency, state.selectedFromCurrencyLabel)
+        selectedToCurrencyButton.text = state.selectedToCurrencyLabel
         fromCurrencyInput.apply {
             setText(state.fromValue)
             fromCurrencyInput.text?.length?.let { setSelection(it) }
@@ -114,13 +115,13 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         showCurrencyConvertContainer()
     }
 
-    private fun setupSelectedFromCurrencyButton(selectedFromCurrency: Currency) {
+    private fun setupSelectedFromCurrencyButton(selectedForeignCurrency: Currency, selectedFromCurrencyLabel: String) {
         selectedFromCurrencyButton.apply {
-            text = selectedFromCurrency.currencyName
+            text = selectedFromCurrencyLabel
             setOnClickListener {
                 requireActivity().checkIfFragmentAlreadyOpened(
                     SelectCurrencyDialog.TAG,
-                    { showSelectCurrencyDialog(selectedFromCurrency) }
+                    { showSelectCurrencyDialog(selectedForeignCurrency) }
                 )
             }
         }
@@ -136,6 +137,13 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
                 viewModel.onNewCurrencySelected(newSelectedCurrencyName)
             }
         }.show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
+    }
+
+    private fun setupSwitchCurrenciesButton() {
+        switchCurrenciesButton.setOnClickListener {
+            viewModel.onSwitchCurrencies()
+            viewModel.onCalculateClicked(fromCurrencyInput.text.toString())
+        }
     }
 
 
