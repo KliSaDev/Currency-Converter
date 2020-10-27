@@ -10,10 +10,7 @@ import com.example.currencyconverter.di.annotations.ViewModelKey
 import com.example.currencyconverter.network.interactors.GetAllCurrenciesInteractor
 import com.example.currencyconverter.network.interactors.GetCurrenciesByDateInteractor
 import com.example.currencyconverter.network.observers.ErrorHandlingSingleObserver
-import com.example.currencyconverter.util.DAYS_TO_SUBTRACT_FOR_WEEKLY_RATES
-import com.example.currencyconverter.util.DEFAULT_FROM_CURRENCY_VALUE
-import com.example.currencyconverter.util.DEFAULT_TO_CURRENCY_VALUE
-import com.example.currencyconverter.util.MAX_DAILY_VALUES
+import com.example.currencyconverter.util.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -58,6 +55,11 @@ class ConvertCurrencyViewModel @Inject constructor(
                 toValue = toValue
             )
         }
+    }
+
+    private fun convertValue(fromValue: String): String {
+        val resultValue = BigDecimal(fromValue).multiply(selectedFromCurrency.middleRate)
+        return String.format(FORMAT_CURRENCY_LIST_RATES, resultValue)
     }
 
     fun onNewCurrencySelected(newCurrencyName: String) {
@@ -153,7 +155,7 @@ class ConvertCurrencyViewModel @Inject constructor(
 
     private fun setupState() {
         selectedFromCurrency = currencyRepository.getTopmostCurrency()
-        this.toValue = selectedFromCurrency.middleRate.toString()
+        this.toValue = String.format(FORMAT_CURRENCY_LIST_RATES, selectedFromCurrency.middleRate)
         viewState = ConvertCurrencyState(
             selectedFromCurrency = selectedFromCurrency,
             fromValue = fromValue,
@@ -168,10 +170,6 @@ class ConvertCurrencyViewModel @Inject constructor(
     private fun shouldCurrenciesBeUpdated(): Boolean {
         val lastUpdatedDate = currencyRepository.getTopmostCurrency().date
         return LocalDate.now() != lastUpdatedDate
-    }
-
-    private fun convertValue(fromValue: String): String {
-        return BigDecimal(fromValue).multiply(selectedFromCurrency.middleRate).toString()
     }
 }
 
