@@ -12,6 +12,7 @@ import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.models.DailyCurrencyValue
 import com.example.currencyconverter.ui.main.selectcurrency.SelectCurrencyDialog
 import com.example.currencyconverter.util.*
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -91,6 +92,8 @@ class WeeklyRatesFragment : BaseFragment<WeeklyRatesState, WeeklyRatesEvent>() {
         weeklyRatesChart.apply {
             data = LineData(dataSet)
             notifyDataSetChanged()
+            setBaseAnimation()
+            animateX(X_AXIS_ANIMATION_DURATION, Easing.EaseOutBack)
             invalidate()
         }
     }
