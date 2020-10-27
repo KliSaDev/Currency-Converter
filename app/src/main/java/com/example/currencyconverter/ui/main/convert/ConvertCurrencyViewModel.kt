@@ -65,7 +65,8 @@ class ConvertCurrencyViewModel @Inject constructor(
     }
 
     private fun convertValue(fromValue: String): String {
-        return BigDecimal(fromValue).multiply(selectedForeignCurrency.middleRate).toString()
+        val resultValue = BigDecimal(fromValue).multiply(selectedForeignCurrency.middleRate)
+        return String.format(FORMAT_CURRENCY_LIST_RATES, resultValue)
     }
 
     private fun convertSwitchedValue(fromValue: String): String {
@@ -168,7 +169,8 @@ class ConvertCurrencyViewModel @Inject constructor(
 
     private fun setupState() {
         selectedForeignCurrency = currencyRepository.getTopmostCurrency()
-        this.toValue = selectedForeignCurrency.middleRate.toString()
+        this.toValue = String.format(FORMAT_CURRENCY_LIST_RATES, selectedForeignCurrency.middleRate)
+
         viewState = ConvertCurrencyState(
             selectedForeignCurrency = selectedForeignCurrency,
             selectedFromCurrencyLabel = selectedForeignCurrency.currencyName,
