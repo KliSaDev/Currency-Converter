@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.TranslateAnimation
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
@@ -94,11 +92,8 @@ class WeeklyRatesFragment : BaseFragment<WeeklyRatesState, WeeklyRatesEvent>() {
         weeklyRatesChart.apply {
             data = LineData(dataSet)
             notifyDataSetChanged()
-            animation = TranslateAnimation(0f, 0f, 50f, 0f).apply {
-                duration = 500L
-                interpolator = DecelerateInterpolator()
-            }
-            animateX(2000, Easing.EaseOutBack)
+            setBaseAnimation()
+            animateX(X_AXIS_ANIMATION_DURATION, Easing.EaseOutBack)
             invalidate()
         }
     }

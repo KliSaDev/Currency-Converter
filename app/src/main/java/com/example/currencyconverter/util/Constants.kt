@@ -28,6 +28,7 @@ const val VALUE_TEXT_SIZE = 10f
 const val X_AXIS_GRANULARITY = 1f
 const val X_AXIS_OFFSET_FOR_VALUES = 0.4f
 const val X_AXIS_LABEL_TEXT_SIZE = 15f
+const val X_AXIS_ANIMATION_DURATION = 2000
 
 const val Y_AXIS_LABEL_TEXT_SIZE = 15f
 

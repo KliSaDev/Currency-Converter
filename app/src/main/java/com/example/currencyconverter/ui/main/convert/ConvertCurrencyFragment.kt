@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.TranslateAnimation
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -78,14 +76,9 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
                 // can show nicely with no flickering.
                 rootContainer.layoutTransition = LayoutTransition()
             } else {
-                // TODO Tweak this.
-                val translateAnimation = TranslateAnimation(0f, 0f, 50f, 0f).apply {
-                    duration = 500L
-                    interpolator = DecelerateInterpolator()
-                }
                 disclaimerContainer.run {
                     show()
-                    animation = translateAnimation
+                    setBaseAnimation()
                 }
             }
         }
