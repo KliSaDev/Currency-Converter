@@ -1,12 +1,13 @@
 package com.example.currencyconverter.ui.main.convert
 
-import android.animation.LayoutTransition
+import android.animation.*
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.animation.DecelerateInterpolator
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -49,6 +50,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
         initializeOnGlobalLayoutListener()
         viewModel.init()
+        setupSwitchCurrenciesButton()
         setupCalculateButton()
     }
 
@@ -131,6 +133,32 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         }.show(requireActivity().supportFragmentManager, SelectCurrencyDialog.TAG)
     }
 
+    private fun setupSwitchCurrenciesButton() {
+        switchCurrenciesButton.setOnClickListener {
+            val toPosition = selectedToCurrencyButton.x
+
+            val fromAnimator = ObjectAnimator.ofFloat(selectedFromCurrencyButton,TRANSLATION_X, toPosition)
+            val toAnimator = ObjectAnimator.ofFloat(selectedToCurrencyButton,TRANSLATION_X, -toPosition)
+
+            AnimatorSet().run {
+                playTogether(fromAnimator, toAnimator)
+                duration = SWITCH_CURRENCIES_ANIMATION_DURATION
+                interpolator = DecelerateInterpolator()
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator?) {
+                        super.onAnimationStart(animation)
+                        switchCurrenciesButton.isEnabled = false
+                    }
+
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+                        switchCurrenciesButton.isEnabled = true
+                    }
+                })
+                start()
+            }
+        }
+    }
 
     private fun setupCalculateButton() {
         buttonCalculate.setOnClickListener {

@@ -11,7 +11,7 @@
         android:id="@+id/convertCurrencyContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:constraint_referenced_ids="fromText, selectedFromCurrencyButton, compareArrowsImage, fromCurrencyInputContainer, fromCurrencyInput, toText, selectedToCurrencyButton, toCurrencyInputContainer, toCurrencyInput, disclaimerContainer, buttonCalculate"
+        app:constraint_referenced_ids="fromText, selectedFromCurrencyButton, @+id/switchCurrenciesButton, fromCurrencyInputContainer, fromCurrencyInput, toText, selectedToCurrencyButton, toCurrencyInputContainer, toCurrencyInput, disclaimerContainer, buttonCalculate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,9 +42,11 @@
         tools:text="EUR" />
 
     <ImageView
-        android:id="@+id/compareArrowsImage"
+        android:id="@+id/switchCurrenciesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:padding="@dimen/spacing_2x"
         android:src="@drawable/ic_compare_arrows"
         app:layout_constraintBottom_toBottomOf="@id/selectedFromCurrencyButton"
         app:layout_constraintEnd_toStartOf="@id/selectedToCurrencyButton"
