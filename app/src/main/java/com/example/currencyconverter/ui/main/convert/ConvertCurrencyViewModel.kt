@@ -17,6 +17,7 @@ import dagger.multibindings.IntoMap
 import org.threeten.bp.LocalDate
 import timber.log.Timber
 import java.math.BigDecimal
+import java.math.RoundingMode
 import javax.inject.Inject
 
 class ConvertCurrencyViewModel @Inject constructor(
@@ -28,6 +29,8 @@ class ConvertCurrencyViewModel @Inject constructor(
     private lateinit var selectedFromCurrency: Currency
     private var fromValue: String = DEFAULT_FROM_CURRENCY_VALUE.toString()
     private var toValue: String = DEFAULT_TO_CURRENCY_VALUE.toString()
+    // If true, that means that HRK currency is 'from' currency, and calculation is reversed.
+    private var areCurrenciesSwitched = false
 
     fun init() {
         Timber.d("${ConvertCurrencyViewModel::class.simpleName} initialized")
@@ -49,7 +52,7 @@ class ConvertCurrencyViewModel @Inject constructor(
             emitEvent(InvalidNumberInput)
         } else {
             this.fromValue = fromValue
-            this.toValue = convertValue(fromValue)
+            this.toValue = if (areCurrenciesSwitched) convertSwitchedValue(fromValue) else convertValue(fromValue)
             viewState = viewState?.copy(
                 fromValue = fromValue,
                 toValue = toValue
@@ -57,9 +60,21 @@ class ConvertCurrencyViewModel @Inject constructor(
         }
     }
 
+    fun onCurrencySwitch(fromValue: String) {
+        areCurrenciesSwitched = !areCurrenciesSwitched
+        onCalculateClicked(fromValue)
+    }
+
     private fun convertValue(fromValue: String): String {
         val resultValue = BigDecimal(fromValue).multiply(selectedFromCurrency.middleRate)
         return String.format(FORMAT_CURRENCY_LIST_RATES, resultValue)
+    }
+
+    private fun convertSwitchedValue(fromValue: String): String {
+        return BigDecimal(fromValue).divide(
+            selectedFromCurrency.middleRate,
+            SCALE_FOR_DIVIDED_CURRENCY_RESULT_VALUE,
+            RoundingMode.HALF_UP).toString()
     }
 
     fun onNewCurrencySelected(newCurrencyName: String) {

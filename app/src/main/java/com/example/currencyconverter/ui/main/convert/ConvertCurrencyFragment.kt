@@ -135,6 +135,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
     private fun setupSwitchCurrenciesButton() {
         switchCurrenciesButton.setOnClickListener {
+            viewModel.onCurrencySwitch(fromCurrencyInput.text.toString())
             val toPosition = selectedToCurrencyButton.x
 
             val fromAnimator = ObjectAnimator.ofFloat(selectedFromCurrencyButton,TRANSLATION_X, toPosition)
