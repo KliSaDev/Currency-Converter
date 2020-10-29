@@ -52,7 +52,7 @@ class ConvertCurrencyViewModel @Inject constructor(
             emitEvent(InvalidNumberInput)
         } else {
             this.fromValue = fromValue
-            this.toValue = if (areCurrenciesSwitched) convertSwitchedValue(fromValue) else convertValue(fromValue)
+            this.toValue = getCalculatedValue(fromValue)
             viewState = viewState?.copy(
                 fromValue = fromValue,
                 toValue = toValue
@@ -63,6 +63,10 @@ class ConvertCurrencyViewModel @Inject constructor(
     fun onCurrencySwitch(fromValue: String) {
         areCurrenciesSwitched = !areCurrenciesSwitched
         onCalculateClicked(fromValue)
+    }
+
+    private fun getCalculatedValue(fromValue: String) : String {
+        return if (areCurrenciesSwitched) convertSwitchedValue(fromValue) else convertValue(fromValue)
     }
 
     private fun convertValue(fromValue: String): String {
@@ -87,7 +91,7 @@ class ConvertCurrencyViewModel @Inject constructor(
 
         viewState = viewState?.copy(
             selectedFromCurrency = selectedFromCurrency,
-            toValue = convertValue(fromValue)
+            toValue = getCalculatedValue(fromValue)
         )
     }
 
