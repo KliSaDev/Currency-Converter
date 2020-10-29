@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import androidx.core.view.forEach
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.currencyconverter.BaseFragment
@@ -54,6 +55,14 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         setupCalculateButton()
     }
 
+    override fun onStart() {
+        super.onStart()
+        // Previous listener needs to be removed so we do not add the listener twice, which
+        // can result in NullPointerException.
+        removeOnGlobalLayoutListenerForKeyboardVisibility()
+        addOnGlobalLayoutListenerForKeyboardVisibility()
+    }
+
     override fun onPause() {
         super.onPause()
         removeOnGlobalLayoutListenerForKeyboardVisibility()
@@ -62,8 +71,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
     private fun initializeOnGlobalLayoutListener() {
         // Due to lack of integrated methods with which we could get basic information about
-        // keyboard, this is somewhat hacky way of knowing whether the keyboard
-        // is visible or not.
+        // keyboard (like whether it is visible or not), this is somewhat hacky way of knowing that.
         onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
             val activityContainer = requireActivity().container
             val r = Rect()
@@ -78,9 +86,11 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
                 // can show nicely with no flickering.
                 rootContainer.layoutTransition = LayoutTransition()
             } else {
-                disclaimerContainer.run {
-                    show()
-                    setBaseAnimation()
+                if (disclaimerContainer.isVisible.not()) {
+                    disclaimerContainer.run {
+                        show()
+                        setBaseAnimation()
+                    }
                 }
             }
         }
@@ -95,10 +105,6 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
-        // Before setting up the layout previous listener needs to be removed so we do
-        // not add the listener twice, which can result in NullPointerException.
-        removeOnGlobalLayoutListenerForKeyboardVisibility()
-        addOnGlobalLayoutListenerForKeyboardVisibility()
         setupSelectedFromCurrencyButton(state.selectedFromCurrency)
         setupSelectedToCurrencyButton()
         fromCurrencyInput.apply {
@@ -138,8 +144,8 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
             viewModel.onCurrencySwitch(fromCurrencyInput.text.toString())
             val toPosition = selectedToCurrencyButton.x
 
-            val fromAnimator = ObjectAnimator.ofFloat(selectedFromCurrencyButton,TRANSLATION_X, toPosition)
-            val toAnimator = ObjectAnimator.ofFloat(selectedToCurrencyButton,TRANSLATION_X, -toPosition)
+            val fromAnimator = ObjectAnimator.ofFloat(selectedFromCurrencyButton, TRANSLATION_X, toPosition)
+            val toAnimator = ObjectAnimator.ofFloat(selectedToCurrencyButton, TRANSLATION_X, -toPosition)
 
             AnimatorSet().run {
                 playTogether(fromAnimator, toAnimator)
@@ -168,7 +174,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     }
 
     private fun showCurrencyConvertContainer() {
-        wifiOffImage.hide()
+        noInternetConnectionContainer.hide()
         convertCurrencyContainer.show()
         shouldEnableBottomNavigationView(true)
     }
@@ -176,8 +182,8 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     private fun setupNoInternetConnectionLayout() {
         removeOnGlobalLayoutListenerForKeyboardVisibility()
         convertCurrencyContainer.hide()
+        noInternetConnectionContainer.show()
         wifiOffImage.run {
-            show()
             pathAnimator.duration(ANIMATION_DURATION).start()
             pathColor = requireContext().getCompatColor(R.color.colorPrimary)
             setFillAfter(true)
@@ -188,7 +194,10 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
             getString(R.string.no_internet_connection_title),
             Snackbar.LENGTH_INDEFINITE
         )
-            .setAction(getString(R.string.retry_button)) { viewModel.init() }
+            .setAction(getString(R.string.retry_button)) {
+                viewModel.init()
+                addOnGlobalLayoutListenerForKeyboardVisibility()
+            }
             .setActionTextColor(requireContext().getCompatColor(R.color.colorSecondary))
             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
             .show()

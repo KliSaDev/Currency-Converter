@@ -11,7 +11,7 @@
         android:id="@+id/convertCurrencyContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:constraint_referenced_ids="fromText, selectedFromCurrencyButton, @+id/switchCurrenciesButton, fromCurrencyInputContainer, fromCurrencyInput, toText, selectedToCurrencyButton, toCurrencyInputContainer, toCurrencyInput, disclaimerContainer, buttonCalculate"
+        app:constraint_referenced_ids="fromText, selectedFromCurrencyButton, switchCurrenciesButton, fromCurrencyInputContainer, fromCurrencyInput, toText, selectedToCurrencyButton, toCurrencyInputContainer, toCurrencyInput, buttonCalculate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,19 +127,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.eftimoff.androipathview.PathView
-        android:id="@+id/wifiOffImage"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/buttonCalculate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:pathWidth="2dp"
-        app:svg="@raw/ic_wifi_off"
-        tools:visibility="visible" />
-
     <LinearLayout
         android:id="@+id/disclaimerContainer"
         android:layout_width="0dp"
@@ -148,6 +135,7 @@
         android:background="@drawable/bg_rectangle_secondary"
         android:orientation="horizontal"
         android:padding="@dimen/spacing_2x"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/buttonCalculate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -177,5 +165,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/noInternetConnectionContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.eftimoff.androipathview.PathView
+            android:id="@+id/wifiOffImage"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            app:pathWidth="2dp"
+            app:svg="@raw/ic_wifi_off"
+            tools:visibility="visible" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
