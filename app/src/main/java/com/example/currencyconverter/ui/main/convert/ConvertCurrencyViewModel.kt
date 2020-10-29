@@ -113,7 +113,7 @@ class ConvertCurrencyViewModel @Inject constructor(
     private fun insertCurrenciesInDatabase(currencies: List<Currency>) {
         currencies.forEachIndexed { index, currency ->
             currencyRepository.insertCurrency(
-                setDailyValues(currency),
+                currency.setDailyValues(),
                 // We just want to setup state when the last Currency is inserted.
                 { if (index == currencies.size - 1) { setupState() } }
             )
@@ -150,12 +150,12 @@ class ConvertCurrencyViewModel @Inject constructor(
         })
     }
 
-    private fun setDailyValues(currency: Currency): Currency {
-        val dailyValues = currencyRepository.getDailyCurrencyValues(currency.id).toMutableList()
+    private fun Currency.setDailyValues() : Currency {
+        val dailyValues = currencyRepository.getDailyCurrencyValues(this.id).toMutableList()
         dailyValues.add(
             DailyCurrencyValue(
-                date = currency.date,
-                middleRate = currency.middleRate
+                date = this.date,
+                middleRate = this.middleRate
             )
         )
 
@@ -164,8 +164,8 @@ class ConvertCurrencyViewModel @Inject constructor(
         if (dailyValues.size > MAX_DAILY_VALUES) {
             dailyValues.removeAt(0)
         }
-        currency.dailyValues = dailyValues
-        return currency
+        this.dailyValues = dailyValues
+        return this
     }
 
     private fun setupState() {
