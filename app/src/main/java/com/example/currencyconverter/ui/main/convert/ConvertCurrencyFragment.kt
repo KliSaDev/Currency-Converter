@@ -180,7 +180,6 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     }
 
     private fun setupNoInternetConnectionLayout() {
-        removeOnGlobalLayoutListenerForKeyboardVisibility()
         convertCurrencyContainer.hide()
         noInternetConnectionContainer.show()
         wifiOffImage.run {
@@ -194,10 +193,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
             getString(R.string.no_internet_connection_title),
             Snackbar.LENGTH_INDEFINITE
         )
-            .setAction(getString(R.string.retry_button)) {
-                viewModel.init()
-                addOnGlobalLayoutListenerForKeyboardVisibility()
-            }
+            .setAction(getString(R.string.retry_button)) { viewModel.init() }
             .setActionTextColor(requireContext().getCompatColor(R.color.colorSecondary))
             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
             .show()
