@@ -4,7 +4,7 @@ buildscript {
     ext {
         appCompatVersion = '1.2.0'
         chartVersion = '3.1.0'
-        constraintLayoutVersion = '2.0.2'
+        constraintLayoutVersion = '2.0.3'
         daggerVersion = '2.28.1'
         fragmentVersion = '1.2.5'
         gradleVersion = '4.0.0'
@@ -16,7 +16,8 @@ buildscript {
         navigationVersion = '2.3.1'
         okhttpLoggingInterceptorVersion = '3.8.1'
         pathViewVersion = '1.0.8@aar'
-        recyclerViewVersion = '1.2.0-alpha04'
+        preferenceVersion = '1.1.1'
+        recyclerViewVersion = '1.2.0-alpha06'
         retrofitVersion = '2.9.0'
         roomVersion = '2.2.5'
         rxAndroidVersion = '2.1.1'

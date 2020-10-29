@@ -69,6 +69,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.supportVersion"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
+    implementation "androidx.preference:preference-ktx:$rootProject.preferenceVersion"
 
     // Material
     implementation "com.google.android.material:material:$rootProject.materialVersion"
