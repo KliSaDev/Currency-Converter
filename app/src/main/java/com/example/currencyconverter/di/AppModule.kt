@@ -2,6 +2,7 @@ package com.example.currencyconverter.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.currencyconverter.data.CurrencyPreferences
 import com.example.currencyconverter.data.repositories.CurrencyRepository
 import com.example.currencyconverter.db.CurrencyDatabase
 import com.example.currencyconverter.util.CURRENCY_DATABASE_NAME
@@ -27,5 +28,9 @@ abstract class AppModule {
         @Provides
         @Singleton
         fun provideCurrencyRepository(db: CurrencyDatabase) = CurrencyRepository(db)
+
+        @Provides
+        @Singleton
+        fun provideSharedPreferences(context: Context) = CurrencyPreferences(context)
     }
 }

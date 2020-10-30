@@ -2,6 +2,8 @@ package com.example.currencyconverter.ui.main.convert
 
 import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.BaseViewModel
+import com.example.currencyconverter.data.CurrencyPreferences
+import com.example.currencyconverter.data.CurrencyPreferences.Companion.KEY_ARE_CURRENCIES_SWITCHED
 import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.models.DailyCurrencyValue
 import com.example.currencyconverter.data.models.GetCurrenciesByDateParams
@@ -23,14 +25,12 @@ import javax.inject.Inject
 class ConvertCurrencyViewModel @Inject constructor(
     private val getCurrenciesByDateInteractor: GetCurrenciesByDateInteractor,
     private val getAllCurrenciesInteractor: GetAllCurrenciesInteractor,
+    private val preferences: CurrencyPreferences,
     private val currencyRepository: CurrencyRepository
 ) : BaseViewModel<ConvertCurrencyState, ConvertCurrencyEvent>() {
 
     private lateinit var selectedFromCurrency: Currency
     private var fromValue: String = DEFAULT_FROM_CURRENCY_VALUE.toString()
-    private var toValue: String = DEFAULT_TO_CURRENCY_VALUE.toString()
-    // If true, that means that HRK currency is 'from' currency, and calculation is reversed.
-    private var areCurrenciesSwitched = false
 
     fun init() {
         Timber.d("${ConvertCurrencyViewModel::class.simpleName} initialized")
@@ -52,21 +52,21 @@ class ConvertCurrencyViewModel @Inject constructor(
             emitEvent(InvalidNumberInput)
         } else {
             this.fromValue = fromValue
-            this.toValue = getCalculatedValue(fromValue)
             viewState = viewState?.copy(
                 fromValue = fromValue,
-                toValue = toValue
+                toValue = getCalculatedValue(fromValue),
+                areCurrenciesSwitched = areCurrenciesSwitched()
             )
         }
     }
 
     fun onCurrencySwitch(fromValue: String) {
-        areCurrenciesSwitched = !areCurrenciesSwitched
+        preferences.saveBoolean(KEY_ARE_CURRENCIES_SWITCHED, !areCurrenciesSwitched())
         onCalculateClicked(fromValue)
     }
 
-    private fun getCalculatedValue(fromValue: String) : String {
-        return if (areCurrenciesSwitched) convertSwitchedValue(fromValue) else convertValue(fromValue)
+    private fun getCalculatedValue(fromValue: String): String {
+        return if (areCurrenciesSwitched()) convertSwitchedValue(fromValue) else convertValue(fromValue)
     }
 
     private fun convertValue(fromValue: String): String {
@@ -78,7 +78,8 @@ class ConvertCurrencyViewModel @Inject constructor(
         return BigDecimal(fromValue).divide(
             selectedFromCurrency.middleRate,
             SCALE_FOR_DIVIDED_CURRENCY_RESULT_VALUE,
-            RoundingMode.HALF_UP).toString()
+            RoundingMode.HALF_UP
+        ).toString()
     }
 
     fun onNewCurrencySelected(newCurrencyName: String) {
@@ -131,30 +132,30 @@ class ConvertCurrencyViewModel @Inject constructor(
         )
 
         getCurrenciesByDateInteractor.execute(params).subscribe(object : ErrorHandlingSingleObserver<List<Currency>> {
-            override fun onSuccess(currenciesByDate: List<Currency>) {
-                currencyRepository.getAllCurrencies().forEach { currency ->
-                    val currenciesThroughWeek = currenciesByDate.filter { currencyByDate ->
-                        currencyByDate.id == currency.id
-                    }
+                override fun onSuccess(currenciesByDate: List<Currency>) {
+                    currencyRepository.getAllCurrencies().forEach { currency ->
+                        val currenciesThroughWeek = currenciesByDate.filter { currencyByDate ->
+                            currencyByDate.id == currency.id
+                        }
 
-                    val dailyCurrencyValues = mutableListOf<DailyCurrencyValue>()
-                    currenciesThroughWeek.mapTo(dailyCurrencyValues) { currencyThroughWeek ->
-                        DailyCurrencyValue(
-                            currencyThroughWeek.date,
-                            currencyThroughWeek.middleRate
+                        val dailyCurrencyValues = mutableListOf<DailyCurrencyValue>()
+                        currenciesThroughWeek.mapTo(dailyCurrencyValues) { currencyThroughWeek ->
+                            DailyCurrencyValue(
+                                currencyThroughWeek.date,
+                                currencyThroughWeek.middleRate
+                            )
+                        }
+
+                        currencyRepository.updateCurrency(
+                            currency.copy(dailyValues = dailyCurrencyValues)
                         )
                     }
-
-                    currencyRepository.updateCurrency(
-                        currency.copy(dailyValues = dailyCurrencyValues)
-                    )
+                    hideProgress()
                 }
-                hideProgress()
-            }
-        })
+            })
     }
 
-    private fun Currency.setDailyValues() : Currency {
+    private fun Currency.setDailyValues(): Currency {
         val dailyValues = currencyRepository.getDailyCurrencyValues(this.id).toMutableList()
         dailyValues.add(
             DailyCurrencyValue(
@@ -165,20 +166,18 @@ class ConvertCurrencyViewModel @Inject constructor(
 
         // We only want to show 7 values. If the list contains more than that, we remove
         // the oldest value, which is first in the list.
-        if (dailyValues.size > MAX_DAILY_VALUES) {
-            dailyValues.removeAt(0)
-        }
+        if (dailyValues.size > MAX_DAILY_VALUES) { dailyValues.removeAt(0) }
         this.dailyValues = dailyValues
         return this
     }
 
     private fun setupState() {
         selectedFromCurrency = currencyRepository.getTopmostCurrency()
-        this.toValue = String.format(FORMAT_CURRENCY_LIST_RATES, selectedFromCurrency.middleRate)
         viewState = ConvertCurrencyState(
             selectedFromCurrency = selectedFromCurrency,
             fromValue = fromValue,
-            toValue = toValue
+            toValue = getCalculatedValue(fromValue),
+            areCurrenciesSwitched = areCurrenciesSwitched()
         )
     }
 
@@ -189,6 +188,11 @@ class ConvertCurrencyViewModel @Inject constructor(
     private fun shouldCurrenciesBeUpdated(): Boolean {
         val lastUpdatedDate = currencyRepository.getTopmostCurrency().date
         return LocalDate.now() != lastUpdatedDate
+    }
+
+    private fun areCurrenciesSwitched(): Boolean {
+        // If true, that means that HRK currency is 'from' currency, and calculation is reversed.
+        return preferences.getBoolean(KEY_ARE_CURRENCIES_SWITCHED)
     }
 }
 

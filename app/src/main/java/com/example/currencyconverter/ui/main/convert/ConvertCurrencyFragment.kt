@@ -105,6 +105,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
+        if (state.areCurrenciesSwitched) context?.toast("${state.areCurrenciesSwitched}")
         setupSelectedFromCurrencyButton(state.selectedFromCurrency)
         setupSelectedToCurrencyButton()
         fromCurrencyInput.apply {
@@ -127,6 +128,31 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         }
     }
 
+    private fun switchCurrencies() {
+        val toPosition = selectedToCurrencyButton.x
+
+        val fromAnimator = ObjectAnimator.ofFloat(selectedFromCurrencyButton, TRANSLATION_X, toPosition)
+        val toAnimator = ObjectAnimator.ofFloat(selectedToCurrencyButton, TRANSLATION_X, -toPosition)
+
+        AnimatorSet().run {
+            playTogether(fromAnimator, toAnimator)
+            duration = SWITCH_CURRENCIES_ANIMATION_DURATION
+            interpolator = DecelerateInterpolator()
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator?) {
+                    super.onAnimationStart(animation)
+                    switchCurrenciesButton.isEnabled = false
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    switchCurrenciesButton.isEnabled = true
+                }
+            })
+            start()
+        }
+    }
+
     private fun setupSelectedToCurrencyButton() {
         selectedToCurrencyButton.text = getString(R.string.hrk)
     }
@@ -142,28 +168,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     private fun setupSwitchCurrenciesButton() {
         switchCurrenciesButton.setOnClickListener {
             viewModel.onCurrencySwitch(fromCurrencyInput.text.toString())
-            val toPosition = selectedToCurrencyButton.x
-
-            val fromAnimator = ObjectAnimator.ofFloat(selectedFromCurrencyButton, TRANSLATION_X, toPosition)
-            val toAnimator = ObjectAnimator.ofFloat(selectedToCurrencyButton, TRANSLATION_X, -toPosition)
-
-            AnimatorSet().run {
-                playTogether(fromAnimator, toAnimator)
-                duration = SWITCH_CURRENCIES_ANIMATION_DURATION
-                interpolator = DecelerateInterpolator()
-                addListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationStart(animation: Animator?) {
-                        super.onAnimationStart(animation)
-                        switchCurrenciesButton.isEnabled = false
-                    }
-
-                    override fun onAnimationEnd(animation: Animator?) {
-                        super.onAnimationEnd(animation)
-                        switchCurrenciesButton.isEnabled = true
-                    }
-                })
-                start()
-            }
+            switchCurrencies()
         }
     }
 
