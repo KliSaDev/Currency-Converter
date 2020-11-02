@@ -3,6 +3,7 @@ package com.example.currencyconverter.ui.main.convert
 import android.animation.*
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -105,7 +106,6 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     }
 
     private fun setupLayout(state: ConvertCurrencyState) {
-        if (state.areCurrenciesSwitched) context?.toast("${state.areCurrenciesSwitched}")
         setupSelectedFromCurrencyButton(state.selectedFromCurrency)
         setupSelectedToCurrencyButton()
         fromCurrencyInput.apply {
@@ -114,10 +114,11 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         }
         toCurrencyInput.setText(state.toValue)
         showCurrencyConvertContainer()
+        if (state.areCurrenciesSwitched) switchCurrencies(50, 0, null)
     }
 
     private fun setupSelectedFromCurrencyButton(selectedFromCurrency: Currency) {
-        selectedFromCurrencyButton.apply {
+        selectedFromCurrencyButton.run {
             text = selectedFromCurrency.currencyName
             setOnClickListener {
                 requireActivity().checkIfFragmentAlreadyOpened(
@@ -128,29 +129,35 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         }
     }
 
-    private fun switchCurrencies() {
-        val toPosition = selectedToCurrencyButton.x
+    private fun switchCurrencies(
+        delayMillis: Long = 0,
+        animationDuration: Long,
+        animationInterpolator: DecelerateInterpolator? = DecelerateInterpolator()
+    ) {
+        Handler().postDelayed({
+            val toPosition = selectedToCurrencyButton.x
 
-        val fromAnimator = ObjectAnimator.ofFloat(selectedFromCurrencyButton, TRANSLATION_X, toPosition)
-        val toAnimator = ObjectAnimator.ofFloat(selectedToCurrencyButton, TRANSLATION_X, -toPosition)
+            val fromAnimator = ObjectAnimator.ofFloat(selectedFromCurrencyButton, TRANSLATION_X, toPosition)
+            val toAnimator = ObjectAnimator.ofFloat(selectedToCurrencyButton, TRANSLATION_X, -toPosition)
 
-        AnimatorSet().run {
-            playTogether(fromAnimator, toAnimator)
-            duration = SWITCH_CURRENCIES_ANIMATION_DURATION
-            interpolator = DecelerateInterpolator()
-            addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationStart(animation: Animator?) {
-                    super.onAnimationStart(animation)
-                    switchCurrenciesButton.isEnabled = false
-                }
+            AnimatorSet().run {
+                playTogether(fromAnimator, toAnimator)
+                duration = animationDuration
+                interpolator = animationInterpolator
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator?) {
+                        super.onAnimationStart(animation)
+                        switchCurrenciesButton.isEnabled = false
+                    }
 
-                override fun onAnimationEnd(animation: Animator?) {
-                    super.onAnimationEnd(animation)
-                    switchCurrenciesButton.isEnabled = true
-                }
-            })
-            start()
-        }
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+                        switchCurrenciesButton.isEnabled = true
+                    }
+                })
+                start()
+            }
+        }, delayMillis)
     }
 
     private fun setupSelectedToCurrencyButton() {
@@ -168,7 +175,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
     private fun setupSwitchCurrenciesButton() {
         switchCurrenciesButton.setOnClickListener {
             viewModel.onCurrencySwitch(fromCurrencyInput.text.toString())
-            switchCurrencies()
+            switchCurrencies(animationDuration = SWITCH_CURRENCIES_ANIMATION_DURATION)
         }
     }
 
