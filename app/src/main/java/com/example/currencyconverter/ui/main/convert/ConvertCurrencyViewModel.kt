@@ -1,5 +1,7 @@
 package com.example.currencyconverter.ui.main.convert
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.BaseViewModel
 import com.example.currencyconverter.data.CurrencyPreferences
@@ -29,6 +31,7 @@ class ConvertCurrencyViewModel @Inject constructor(
     private val currencyRepository: CurrencyRepository
 ) : BaseViewModel<ConvertCurrencyState, ConvertCurrencyEvent>() {
 
+    private var areCurrenciesSwitched: MutableLiveData<Boolean> = MutableLiveData(areCurrenciesSwitched())
     private lateinit var selectedFromCurrency: Currency
     private var fromValue: String = DEFAULT_FROM_CURRENCY_VALUE.toString()
 
@@ -47,6 +50,8 @@ class ConvertCurrencyViewModel @Inject constructor(
         }
     }
 
+    fun shouldSwitchCurrencies(): LiveData<Boolean> = areCurrenciesSwitched
+
     fun onCalculateClicked(fromValue: String) {
         if (fromValue.isEmpty()) {
             emitEvent(InvalidNumberInput)
@@ -62,6 +67,7 @@ class ConvertCurrencyViewModel @Inject constructor(
 
     fun onCurrencySwitch(fromValue: String) {
         preferences.saveBoolean(KEY_ARE_CURRENCIES_SWITCHED, !areCurrenciesSwitched())
+        areCurrenciesSwitched.value = areCurrenciesSwitched()
         onCalculateClicked(fromValue)
     }
 

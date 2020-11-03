@@ -43,6 +43,10 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
             }
         })
 
+        viewModel.shouldSwitchCurrencies().observe(viewLifecycleOwner, Observer {shouldSwitch ->
+            if (shouldSwitch) switchCurrencies(50, 0, null)
+        })
+
         viewModel.viewEventData().observe(viewLifecycleOwner, Observer { event ->
             when (event) {
                 is InvalidNumberInput -> context?.toast(getString(R.string.invalid_number_input))
@@ -114,7 +118,6 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
         }
         toCurrencyInput.setText(state.toValue)
         showCurrencyConvertContainer()
-        if (state.areCurrenciesSwitched) switchCurrencies(50, 0, null)
     }
 
     private fun setupSelectedFromCurrencyButton(selectedFromCurrency: Currency) {
