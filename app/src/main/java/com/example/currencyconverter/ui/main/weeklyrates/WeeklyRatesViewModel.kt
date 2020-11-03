@@ -2,6 +2,8 @@ package com.example.currencyconverter.ui.main.weeklyrates
 
 import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.BaseViewModel
+import com.example.currencyconverter.data.CurrencyPreferences
+import com.example.currencyconverter.data.CurrencyPreferences.Companion.KEY_SELECTED_CURRENCY_NAME
 import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.repositories.CurrencyRepository
 import com.example.currencyconverter.di.annotations.ViewModelKey
@@ -12,29 +14,36 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class WeeklyRatesViewModel @Inject constructor(
-    private val currencyRepository: CurrencyRepository
+    private val currencyRepository: CurrencyRepository,
+    private val preferences: CurrencyPreferences
 ) : BaseViewModel<WeeklyRatesState, WeeklyRatesEvent>() {
 
     private lateinit var selectedFromCurrency: Currency
 
     fun init() {
         Timber.d("${WeeklyRatesViewModel::class.simpleName} initialized")
-        selectedFromCurrency = currencyRepository.getTopmostCurrency()
-        viewState = WeeklyRatesState(selectedFromCurrency, selectedFromCurrency.dailyValues)
+        setSelectedCurrency(findCurrencyByName(preferences.getString(KEY_SELECTED_CURRENCY_NAME)))
+        setupState()
     }
 
     fun onNewCurrencySelected(newCurrencyName: String) {
-        val newCurrency = currencyRepository.getAllCurrencies().find {
-            it.currencyName == newCurrencyName
-        }
-        if (newCurrency != null) {
-            selectedFromCurrency = newCurrency
-        }
+        setSelectedCurrency(findCurrencyByName(newCurrencyName))
+        preferences.saveString(KEY_SELECTED_CURRENCY_NAME, newCurrencyName)
+        setupState()
+    }
 
-        viewState = viewState?.copy(
-            selectedFromCurrency = selectedFromCurrency,
-            dailyValues = selectedFromCurrency.dailyValues
-        )
+    private fun setupState() {
+        viewState = WeeklyRatesState(selectedFromCurrency, selectedFromCurrency.dailyValues)
+    }
+
+    private fun findCurrencyByName(name: String): Currency? {
+        return currencyRepository.getAllCurrencies().find {
+            it.currencyName == name
+        }
+    }
+
+    private fun setSelectedCurrency(currency: Currency?) {
+        if (currency != null) selectedFromCurrency = currency
     }
 }
 

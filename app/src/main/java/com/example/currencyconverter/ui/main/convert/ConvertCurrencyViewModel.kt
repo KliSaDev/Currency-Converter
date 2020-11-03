@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.BaseViewModel
 import com.example.currencyconverter.data.CurrencyPreferences
 import com.example.currencyconverter.data.CurrencyPreferences.Companion.KEY_ARE_CURRENCIES_SWITCHED
+import com.example.currencyconverter.data.CurrencyPreferences.Companion.KEY_SELECTED_CURRENCY_NAME
 import com.example.currencyconverter.data.models.Currency
 import com.example.currencyconverter.data.models.DailyCurrencyValue
 import com.example.currencyconverter.data.models.GetCurrenciesByDateParams
@@ -89,12 +90,8 @@ class ConvertCurrencyViewModel @Inject constructor(
     }
 
     fun onNewCurrencySelected(newCurrencyName: String) {
-        val newCurrency = currencyRepository.getAllCurrencies().find {
-            it.currencyName == newCurrencyName
-        }
-        if (newCurrency != null) {
-            selectedFromCurrency = newCurrency
-        }
+        setSelectedCurrency(findCurrencyByName(newCurrencyName))
+        preferences.saveString(KEY_SELECTED_CURRENCY_NAME, newCurrencyName)
 
         viewState = viewState?.copy(
             selectedFromCurrency = selectedFromCurrency,
@@ -178,7 +175,7 @@ class ConvertCurrencyViewModel @Inject constructor(
     }
 
     private fun setupState() {
-        selectedFromCurrency = currencyRepository.getTopmostCurrency()
+        setSelectedCurrency(findCurrencyByName(preferences.getString(KEY_SELECTED_CURRENCY_NAME)))
         viewState = ConvertCurrencyState(
             selectedFromCurrency = selectedFromCurrency,
             fromValue = fromValue,
@@ -199,6 +196,16 @@ class ConvertCurrencyViewModel @Inject constructor(
     private fun areCurrenciesSwitched(): Boolean {
         // If true, that means that HRK currency is 'from' currency, and calculation is reversed.
         return preferences.getBoolean(KEY_ARE_CURRENCIES_SWITCHED)
+    }
+
+    private fun findCurrencyByName(name: String): Currency? {
+        return currencyRepository.getAllCurrencies().find {
+            it.currencyName == name
+        }
+    }
+
+    private fun setSelectedCurrency(currency: Currency?) {
+        if (currency != null) selectedFromCurrency = currency
     }
 }
 
