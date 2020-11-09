@@ -132,7 +132,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_2x"
-        android:background="@drawable/bg_rectangle_secondary"
+        android:background="@drawable/bg_rectangle_outlined_coral"
         android:orientation="horizontal"
         android:padding="@dimen/spacing_2x"
         android:visibility="gone"
@@ -153,7 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_2x"
             android:text="@string/currency_disclaimer"
-            android:textAppearance="@style/Text.Subheading.Small.Secondary" />
+            android:textAppearance="@style/Text.Subheading.Small.Coral" />
     </LinearLayout>
 
     <TextView
