@@ -41,9 +41,7 @@ class ConvertCurrencyViewModel @Inject constructor(
         showProgress()
 
         val isDatabaseEmpty = getCurrenciesFromDatabase().isNullOrEmpty()
-        if (isDatabaseEmpty) {
-            getCurrenciesFromAPI(true)
-        } else if (shouldCurrenciesBeUpdated()) {
+        if (isDatabaseEmpty || shouldCurrenciesBeUpdated()) {
             getCurrenciesFromAPI()
         } else {
             setupState()
@@ -99,11 +97,11 @@ class ConvertCurrencyViewModel @Inject constructor(
         )
     }
 
-    private fun getCurrenciesFromAPI(shouldGetCurrenciesByDate: Boolean = false) {
+    private fun getCurrenciesFromAPI() {
         getAllCurrenciesInteractor.execute().subscribe(object : ErrorHandlingSingleObserver<List<Currency>> {
                 override fun onSuccess(updatedCurrencies: List<Currency>) {
                     insertCurrenciesInDatabase(updatedCurrencies)
-                    if (shouldGetCurrenciesByDate) getCurrenciesByDate()
+                    getCurrenciesByDate()
                     hideProgress()
                 }
 
