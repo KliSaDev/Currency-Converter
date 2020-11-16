@@ -77,8 +77,8 @@
         <item name="android:textColor">@color/colorSecondary</item>
     </style>
 
-    <style name="Text.Subheading.Small.Coral" parent="Text.Subheading.Small">
-        <item name="android:textColor">@color/coral</item>
+    <style name="Text.Subheading.Small.Marigold" parent="Text.Subheading.Small">
+        <item name="android:textColor">@color/marigold</item>
     </style>
 
 </resources>

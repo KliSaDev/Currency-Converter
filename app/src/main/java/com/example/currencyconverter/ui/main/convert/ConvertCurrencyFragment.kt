@@ -209,7 +209,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
             Snackbar.LENGTH_INDEFINITE
         )
             .setAction(getString(R.string.retry_button)) { viewModel.init() }
-            .setActionTextColor(requireContext().getCompatColor(R.color.colorSecondary))
+            .setActionTextColor(requireContext().getCompatColor(R.color.colorAccent))
             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
             .show()
 
