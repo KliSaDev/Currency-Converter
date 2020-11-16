@@ -14,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacing_2x"
-        android:background="@drawable/bg_rectangle_gray"
+        android:background="@drawable/bg_rectangle_marigold"
         android:gravity="center"
         android:padding="@dimen/spacing_1x"
         android:textColor="@color/white"
