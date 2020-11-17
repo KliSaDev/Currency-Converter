@@ -177,6 +177,7 @@ class ConvertCurrencyFragment : BaseFragment<ConvertCurrencyState, ConvertCurren
 
     private fun setupSwitchCurrenciesButton() {
         switchCurrenciesButton.setOnClickListener {
+            it.animate().rotationBy(SWITCH_CURRENCIES_BUTTON_ROTATION_VALUE).start()
             viewModel.onCurrencySwitch(fromCurrencyInput.text.toString())
             switchCurrencies(animationDuration = SWITCH_CURRENCIES_ANIMATION_DURATION)
         }
