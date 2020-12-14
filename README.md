@@ -10,3 +10,11 @@ Currency Converter contains three main screens.
 * The first one shows the converter itself where user can choose any of the given currencies and convert it to HRK and vice versa.
 * On the second screen user can see a list of all currencies along with their buying, middle and selling rate (in relationship to HRK).
 * The third screen shows a graph of a selected currency and its middle rate values throughout the last seven days.
+
+#### Libraries used:
+* Retrofit 2
+* Dagger 2
+* Rx
+* Room
+* Moshi
+* [MP Android Chart](https://github.com/PhilJay/MPAndroidChart)
