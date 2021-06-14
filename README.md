@@ -14,9 +14,9 @@ Currency Converter contains three main screens.
 ![alt text](https://user-images.githubusercontent.com/67363186/102076816-9d05de00-3e08-11eb-9979-413addf71bf2.png)&nbsp; &nbsp; &nbsp;![alst text](https://user-images.githubusercontent.com/67363186/102076823-a000ce80-3e08-11eb-8a54-4a4bfa027201.png)&nbsp; &nbsp; &nbsp;![alt text](https://user-images.githubusercontent.com/67363186/102076826-a131fb80-3e08-11eb-900e-54ee69f37130.png)
 
 #### Libraries used:
-* Retrofit 2
-* Dagger 2
-* Rx
-* Room
-* Moshi
+* [Retrofit 2](https://square.github.io/retrofit/)
+* [Dagger 2](https://dagger.dev/)
+* [Rx](https://github.com/ReactiveX/RxKotlin)
+* [Room](https://developer.android.com/topic/libraries/architecture/room?gclid=CjwKCAiAt9z-BRBCEiwA_bWv-NKy4ajMPu_hlTG4iSI6H2mevv7tM9K6kprTq1TNpDWxQQvOMhxDGBoCvogQAvD_BwE&gclsrc=aw.ds)
+* [Moshi](https://github.com/square/moshi)
 * [MP Android Chart](https://github.com/PhilJay/MPAndroidChart)
