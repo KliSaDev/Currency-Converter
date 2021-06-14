@@ -66,7 +66,6 @@ class ConvertCurrencyViewModel @Inject constructor(
 
     fun onCurrencySwitch(fromValue: String) {
         preferences.saveBoolean(KEY_ARE_CURRENCIES_SWITCHED, !areCurrenciesSwitched())
-        areCurrenciesSwitched.value = areCurrenciesSwitched()
         onCalculateClicked(fromValue)
     }
 
