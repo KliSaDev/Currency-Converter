@@ -8,9 +8,11 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 /**
- * Because ViewModelProvider class allows us to create custom ViewModel only if it requires no
- * dependencies, we need to make our own custom Factory that will return instances of custom
- * ViewModels and support injected parameters.
+ * If not declared otherwise, ViewModelProvider class internally uses its default
+ * ViewModelProvider.Factory when creating our custom ViewModels. The problem with this approach is
+ * when we try to pass dependencies through our ViewModel's constructor, we get a RunTimeException.
+ * Because of that, we need to make our own custom Factory that will return instance of our custom
+ * ViewModel and support all of its dependencies.
  */
 class ViewModelProviderFactory @Inject constructor(
     private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
